@@ -1,0 +1,8 @@
+FRAMEWORK: NET46
+NUGET
+  remote: https://www.nuget.org/api/v2
+    FSharp.Core (4.2.1)
+    Newtonsoft.Json (10.0.2)
+    NuGet.CommandLine (4.1)
+    Suave (2.1)
+      FSharp.Core (>= 4.0.0.1)
