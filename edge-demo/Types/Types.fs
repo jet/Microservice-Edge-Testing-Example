@@ -40,7 +40,7 @@ type GetItemResponse =
 // Interfaces
 
 type IProducerApi =
-    abstract member UpdateQuantity: UpdateQuantityRequest -> unit
+    //abstract member UpdateQuantity: UpdateQuantityRequest -> unit
 
     abstract member GetItem: GetItemRequest -> Async<GetItemResponse>
     // TODO find out AsyncSeq Type

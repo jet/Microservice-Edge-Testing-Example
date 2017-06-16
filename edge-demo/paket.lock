@@ -2,6 +2,11 @@ FRAMEWORK: NET46
 NUGET
   remote: https://www.nuget.org/api/v2
     FSharp.Core (4.2.1)
+    Hopac (0.3.23)
+      FSharp.Core (>= 3.1.2.5)
+    Http.fs (4.1.1)
+      FSharp.Core (>= 3.1.2.5)
+      Hopac (>= 0.3.21)
     Newtonsoft.Json (10.0.2)
     NuGet.CommandLine (4.1)
     Suave (2.1)
