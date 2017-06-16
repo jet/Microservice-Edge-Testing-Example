@@ -27,10 +27,10 @@ type GetItemRequest = {
 
 // Responses
 
-type UpdateQuanityResponse =
+type UpdateQuantityResponse =
     | Updated of ItemState
     | Failed of Sku * int
-    | NotFound of string
+    | NotFound
 
 type GetItemResponse =
     | Success of ItemState
@@ -40,7 +40,7 @@ type GetItemResponse =
 // Interfaces
 
 type IProducerApi =
-    //abstract member UpdateQuantity: UpdateQuantityRequest -> unit
+    abstract member UpdateQuantity: UpdateQuantityRequest -> Async<UpdateQuantityResponse>
 
     abstract member GetItem: GetItemRequest -> Async<GetItemResponse>
     // TODO find out AsyncSeq Type

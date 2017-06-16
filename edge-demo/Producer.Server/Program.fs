@@ -39,7 +39,7 @@ let handler (req: Producer.Domain.Types.GetItemRequest) =
 
 let messageResponse = getResourceFromReq >> handler
 
-let app = 
+let app =
     path Producer.Domain.Constants.itemRoute >=> request messageResponse
 
 [<EntryPoint>]
