@@ -5,11 +5,9 @@ open Suave.Operators
 open Suave.Filters
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
-
 open System
 open System.Threading.Tasks
-
-open Producer.Domain
+open Producer.Domain.Types
 
 [<AutoOpen>]
 module Helpers = 
@@ -31,7 +29,13 @@ module Helpers =
     let inline startAsPlainTask (work : Async<unit>) = Task.Factory.StartNew(fun () -> work |> Async.RunSynchronously)
 
 let handler (req: Producer.Domain.Types.GetItemRequest) =
-    OK req.sku
+    {
+        ItemState.sku = req.sku
+        quantity = 2
+    }
+    |> GetItemResponse.Success 
+    |> JsonConvert.SerializeObject
+    |> OK
 
 let messageResponse = getResourceFromReq >> handler
 

@@ -12,14 +12,8 @@ open Helpers
 type ProducerClientEdge () =
     interface IProducerApi with
         member x.GetItem (request: GetItemRequest) : Async<GetItemResponse> = async {
-            let res =
+            return
                 request
-                // |> JsonConvert.SerializeObject
                 |> Helpers.httpPost ("http://localhost:8080" + Producer.Domain.Constants.itemRoute)
-            let data =
-                {
-                    ItemState.quantity = 1
-                    sku = res
-                }
-            return GetItemResponse.Success data
+                |> (fun (resText: string) -> JsonConvert.DeserializeObject<GetItemResponse> resText)
         }
