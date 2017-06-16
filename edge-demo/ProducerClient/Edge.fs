@@ -17,3 +17,10 @@ type ProducerClientEdge () =
                 |> Helpers.httpPost ("http://localhost:8080" + Producer.Domain.Constants.itemRoute)
                 |> (fun (resText: string) -> JsonConvert.DeserializeObject<GetItemResponse> resText)
         }
+        
+        member x.UpdateQuantity (request: UpdateQuantityRequest) = async {
+            return
+                request
+                |> Helpers.httpPost ("http://localhost:8080" + Producer.Domain.Constants.updateQuantityRoute)
+                |> (fun (resText: string) -> JsonConvert.DeserializeObject<UpdateQuantityResponse> resText)
+        }

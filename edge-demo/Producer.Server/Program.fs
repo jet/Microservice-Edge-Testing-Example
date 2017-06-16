@@ -8,6 +8,7 @@ open Newtonsoft.Json.Serialization
 open System
 open System.Threading.Tasks
 open Producer.Domain.Types
+open Producer.Logic.Quantity
 
 [<AutoOpen>]
 module Helpers = 
@@ -37,10 +38,28 @@ let handler (req: Producer.Domain.Types.GetItemRequest) =
     |> JsonConvert.SerializeObject
     |> OK
 
-let messageResponse = getResourceFromReq >> handler
+let handleUpdateQuantity (req: Producer.Domain.Types.UpdateQuantityRequest) =
+    let res =
+        {
+            ItemState.sku = req.sku
+            quantity = 2
+        }
+        |> Some
+        |> UpdateQuantity
+        <| req.action
+    res
+    |> JsonConvert.SerializeObject
+    |> OK
+
+let getItemResponse = getResourceFromReq >> handler
+let updateQuantityResponse = getResourceFromReq >> handleUpdateQuantity
 
 let app =
-    path Producer.Domain.Constants.itemRoute >=> request messageResponse
+    choose
+        [ POST >=> choose
+            [ path Producer.Domain.Constants.itemRoute >=> request getItemResponse
+              path Producer.Domain.Constants.updateQuantityRoute >=> request updateQuantityResponse ]
+        ]
 
 [<EntryPoint>]
 let main argv =

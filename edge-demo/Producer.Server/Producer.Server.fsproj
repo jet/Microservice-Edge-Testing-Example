@@ -50,6 +50,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Producer.Logic\Producer.Logic.fsproj">
+      <Name>Producer.Logic</Name>
+      <Project>{d147f6f5-ff74-48e8-b7e3-55649ea34e66}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Types\Producer.Domain.fsproj">
       <Name>Producer.Domain</Name>
       <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
