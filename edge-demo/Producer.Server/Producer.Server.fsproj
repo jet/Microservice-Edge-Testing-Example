@@ -50,6 +50,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JsonStorage\JsonStorage.fsproj">
+      <Name>JsonStorage</Name>
+      <Project>{adef1ec8-bf31-4520-9266-e3e85ef932e1}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Producer.Logic\Producer.Logic.fsproj">
       <Name>Producer.Logic</Name>
       <Project>{d147f6f5-ff74-48e8-b7e3-55649ea34e66}</Project>

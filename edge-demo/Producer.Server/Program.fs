@@ -9,6 +9,7 @@ open System
 open System.Threading.Tasks
 open Producer.Domain.Types
 open Producer.Logic.Quantity
+open JsonStorage.SkuStorage
 
 [<AutoOpen>]
 module Helpers = 
@@ -29,29 +30,24 @@ module Helpers =
         
     let inline startAsPlainTask (work : Async<unit>) = Task.Factory.StartNew(fun () -> work |> Async.RunSynchronously)
 
-let handler (req: Producer.Domain.Types.GetItemRequest) =
-    {
-        ItemState.sku = req.sku
-        quantity = 2
-    }
-    |> GetItemResponse.Success 
+let getItem (req: Producer.Domain.Types.GetItemRequest) =
+    (match getSku req.sku with
+    | Some item -> GetItemResponse.Success item
+    | None -> GetItemResponse.NotFound)
     |> JsonConvert.SerializeObject
     |> OK
 
 let handleUpdateQuantity (req: Producer.Domain.Types.UpdateQuantityRequest) =
     let res =
-        {
-            ItemState.sku = req.sku
-            quantity = 2
-        }
-        |> Some
+        req.sku
+        |> getSku 
         |> UpdateQuantity
         <| req.action
     res
     |> JsonConvert.SerializeObject
     |> OK
 
-let getItemResponse = getResourceFromReq >> handler
+let getItemResponse = getResourceFromReq >> getItem
 let updateQuantityResponse = getResourceFromReq >> handleUpdateQuantity
 
 let app =
