@@ -4,3 +4,5 @@ source https://www.nuget.org/api/v2/
 nuget Nuget.CommandLine
 nuget Suave
 nuget Newtonsoft.Json
+nuget Xunit
+nuget xunit.runner.visualstudio >= 2.0 version_in_path: true

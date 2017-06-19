@@ -16,6 +16,6 @@ let UpdateQuantity (currentState: ItemState option) (action: UpdateQuantityActio
         then
             UpdateQuantityResponse.Updated { state with quantity = newQuantity }
         else
-            UpdateQuantityResponse.Failed (state.sku, difference)
+            UpdateQuantityResponse.Failed state
     | Some state, Increment difference ->
         Updated { state with quantity = state.quantity + difference }

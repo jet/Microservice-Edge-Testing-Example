@@ -29,7 +29,7 @@ type GetItemRequest = {
 
 type UpdateQuantityResponse =
     | Updated of ItemState
-    | Failed of Sku * int
+    | Failed of ItemState
     | NotFound
 
 type GetItemResponse =
