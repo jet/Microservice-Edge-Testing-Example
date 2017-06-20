@@ -11,7 +11,7 @@ open Producer.Domain.Types
 type Database = Map<string, ItemState>
 
 type FakeDatabase () =
-    let mutable database = [] |> Map<string, ItemState>
+    let mutable database = [("a", { ItemState.sku = "a"; quantity = 1 })] |> Map<string, ItemState>
 
     let getDatabase () : Database =
         database
