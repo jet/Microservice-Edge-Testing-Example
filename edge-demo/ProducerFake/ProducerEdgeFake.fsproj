@@ -38,6 +38,9 @@
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -46,6 +49,23 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="ClientEdgeFake.fs" />
     <None Include="Script.fsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DatabaseMock\DatabaseMock.fsproj">
+      <Name>DatabaseMock</Name>
+      <Project>{9d485e51-38c8-40b9-bfff-79bcc2a4a041}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Producer.Logic\Producer.Logic.fsproj">
+      <Name>Producer.Logic</Name>
+      <Project>{d147f6f5-ff74-48e8-b7e3-55649ea34e66}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Types\Producer.Domain.fsproj">
+      <Name>Producer.Domain</Name>
+      <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

@@ -1,4 +1,28 @@
-﻿namespace ProducerFake
+﻿module ProducerFake.Client
 
-type Class1() = 
-    member this.X = "F#"
+open FSharp.Data
+open Producer.Domain.Constants
+open Producer.Domain.Types
+open Producer.Logic.Quantity
+open Newtonsoft.Json
+open DatabaseMock.SkuStorage
+
+type ProducerClientEdgeFake () =
+    let database = (new FakeDatabase ()) :> ISkuDatabase
+    interface IProducerApi with
+        member x.GetItem (request: GetItemRequest) : Async<GetItemResponse> = async {
+            return
+                request.sku
+                |> database.GetSku
+                |> function
+                | Some state -> GetItemResponse.Success state
+                | None -> GetItemResponse.NotFound
+        }
+        
+        member x.UpdateQuantity (request: UpdateQuantityRequest) = async {
+            return
+                request.sku
+                |> database.GetSku
+                |> UpdateQuantity
+                <| request.action
+        }

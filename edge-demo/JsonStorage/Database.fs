@@ -9,27 +9,30 @@ open Newtonsoft.Json
 // this would be calling mongo, docdb, whatever, but is using
 // the filesystem to decrease dependencies for this demo
 
+
 type Database = Map<string, ItemState>
 
-let databaseFile = "database.json"
+type JsonDatabase () =
+    let databaseFile = "database.json"
 
-let internal getDatabase () : Database =
-    File.ReadAllText(databaseFile)
-    |> (fun (resText: string) -> JsonConvert.DeserializeObject<Database> resText)
+    let getDatabase () : Database =
+        File.ReadAllText(databaseFile)
+        |> (fun (resText: string) -> JsonConvert.DeserializeObject<Database> resText)
 
-let internal writeDatabase (database: Database) =
-    database
-    |> JsonConvert.SerializeObject
-    |> (fun text -> File.WriteAllText(databaseFile, text))
+    let writeDatabase (database: Database) =
+        database
+        |> JsonConvert.SerializeObject
+        |> (fun text -> File.WriteAllText(databaseFile, text))
 
-let getSku sku =
-    ()
-    |> getDatabase
-    |> Map.tryFind sku
+    interface ISkuDatabase with
+        member x.GetSku sku =
+            ()
+            |> getDatabase
+            |> Map.tryFind sku
 
-let updateSku (item: ItemState) =
-    ()
-    |> getDatabase
-    |> Map.add item.sku item
-    |> writeDatabase
+        member x.UpdateSku (item: ItemState) =
+            ()
+            |> getDatabase
+            |> Map.add item.sku item
+            |> writeDatabase
     

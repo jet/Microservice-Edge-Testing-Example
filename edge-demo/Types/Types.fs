@@ -46,3 +46,8 @@ type IProducerApi =
     // TODO find out AsyncSeq Type
     // abstract member SubscribeToUpdateQuantity: AsyncSeq<UpdateQuantityResponse>
 
+
+type ISkuDatabase =
+    abstract member GetSku: Sku -> ItemState option
+
+    abstract member UpdateSku: ItemState -> unit

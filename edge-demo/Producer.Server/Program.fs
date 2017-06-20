@@ -30,34 +30,39 @@ module Helpers =
         
     let inline startAsPlainTask (work : Async<unit>) = Task.Factory.StartNew(fun () -> work |> Async.RunSynchronously)
 
-let getItem (req: Producer.Domain.Types.GetItemRequest) =
-    (match getSku req.sku with
-    | Some item -> GetItemResponse.Success item
-    | None -> GetItemResponse.NotFound)
-    |> JsonConvert.SerializeObject
-    |> OK
+let startServer (db: ISkuDatabase) =
+    let getItem (req: Producer.Domain.Types.GetItemRequest) =
+        (match db.GetSku req.sku with
+        | Some item -> GetItemResponse.Success item
+        | None -> GetItemResponse.NotFound)
+        |> JsonConvert.SerializeObject
+        |> OK
 
-let handleUpdateQuantity (req: Producer.Domain.Types.UpdateQuantityRequest) =
-    let res =
-        req.sku
-        |> getSku 
-        |> UpdateQuantity
-        <| req.action
-    res
-    |> JsonConvert.SerializeObject
-    |> OK
+    let handleUpdateQuantity (req: Producer.Domain.Types.UpdateQuantityRequest) =
+        let res =
+            req.sku
+            |> db.GetSku 
+            |> UpdateQuantity
+            <| req.action
+        res
+        |> JsonConvert.SerializeObject
+        |> OK
 
-let getItemResponse = getResourceFromReq >> getItem
-let updateQuantityResponse = getResourceFromReq >> handleUpdateQuantity
+    let getItemResponse = getResourceFromReq >> getItem
+    let updateQuantityResponse = getResourceFromReq >> handleUpdateQuantity
 
-let app =
-    choose
-        [ POST >=> choose
-            [ path Producer.Domain.Constants.itemRoute >=> request getItemResponse
-              path Producer.Domain.Constants.updateQuantityRoute >=> request updateQuantityResponse ]
-        ]
+    let app =
+        choose
+            [ POST >=> choose
+                [ path Producer.Domain.Constants.itemRoute >=> request getItemResponse
+                  path Producer.Domain.Constants.updateQuantityRoute >=> request updateQuantityResponse ]
+            ]
+
+    startWebServer defaultConfig app
+
 
 [<EntryPoint>]
 let main argv =
-    startWebServer defaultConfig app
+    (new JsonDatabase ()) :> ISkuDatabase
+    |> startServer
     0
