@@ -20,9 +20,15 @@ type ProducerClientEdgeFake () =
         }
         
         member x.UpdateQuantity (request: UpdateQuantityRequest) = async {
-            return
+            let res =
                 request.sku
                 |> database.GetSku
                 |> UpdateQuantity
                 <| request.action
+
+            match res with
+            | UpdateQuantityResponse.Updated state -> database.UpdateSku state
+            | _ -> ()
+
+            return res
         }

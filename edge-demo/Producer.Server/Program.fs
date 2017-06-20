@@ -44,6 +44,12 @@ let startServer (db: ISkuDatabase) =
             |> db.GetSku 
             |> UpdateQuantity
             <| req.action
+
+
+        match res with
+        | UpdateQuantityResponse.Updated state -> db.UpdateSku state
+        | _ -> ()
+
         res
         |> JsonConvert.SerializeObject
         |> OK
