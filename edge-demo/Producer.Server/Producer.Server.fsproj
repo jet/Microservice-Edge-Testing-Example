@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Controllers.fs" />
+    <Compile Include="DirectEdge.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
   </ItemGroup>

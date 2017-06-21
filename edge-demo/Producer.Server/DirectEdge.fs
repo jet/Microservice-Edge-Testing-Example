@@ -1,4 +1,4 @@
-﻿module DirectEdge
+﻿module Producer.DirectEdge
 
 // This is exposing an "edge" contract api that should be the
 // same as calling this service using the distributed edge,
@@ -9,7 +9,7 @@ open Producer.Logic.Quantity
 open Producer.Domain.Types
 
 
-type ProducerClientEdgeFake (database: ISkuDatabase) =
+type ProducerInternalEdge (database: ISkuDatabase) =
     interface IProducerApi with
         member x.GetItem (request: GetItemRequest) : Async<GetItemResponse> = async {
             return getItem database request
