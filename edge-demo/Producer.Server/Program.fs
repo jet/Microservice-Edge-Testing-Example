@@ -8,8 +8,8 @@ open Newtonsoft.Json.Serialization
 open System
 open System.Threading.Tasks
 open Producer.Domain.Types
-open Producer.Logic.Quantity
 open JsonStorage.SkuStorage
+open Controllers
 
 [<AutoOpen>]
 module Helpers = 
@@ -31,31 +31,8 @@ module Helpers =
     let inline startAsPlainTask (work : Async<unit>) = Task.Factory.StartNew(fun () -> work |> Async.RunSynchronously)
 
 let startServer (db: ISkuDatabase) =
-    let getItem (req: Producer.Domain.Types.GetItemRequest) =
-        (match db.GetSku req.sku with
-        | Some item -> GetItemResponse.Success item
-        | None -> GetItemResponse.NotFound)
-        |> JsonConvert.SerializeObject
-        |> OK
-
-    let handleUpdateQuantity (req: Producer.Domain.Types.UpdateQuantityRequest) =
-        let res =
-            req.sku
-            |> db.GetSku 
-            |> UpdateQuantity
-            <| req.action
-
-
-        match res with
-        | UpdateQuantityResponse.Updated state -> db.UpdateSku state
-        | _ -> ()
-
-        res
-        |> JsonConvert.SerializeObject
-        |> OK
-
-    let getItemResponse = getResourceFromReq >> getItem
-    let updateQuantityResponse = getResourceFromReq >> handleUpdateQuantity
+    let getItemResponse = getResourceFromReq >> getItem db >> JsonConvert.SerializeObject >> OK
+    let updateQuantityResponse = getResourceFromReq >> handleUpdateQuantity db >> JsonConvert.SerializeObject >> OK
 
     let app =
         choose

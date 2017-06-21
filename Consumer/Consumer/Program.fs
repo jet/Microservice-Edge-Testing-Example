@@ -6,8 +6,8 @@ open Producer.Domain.Types
 [<EntryPoint>]
 let main argv = 
     printfn "%A" argv
-    //let client = (new ProducerClientEdge ()) :> IProducerApi
-    let client = (new ProducerClientEdgeFake ()) :> IProducerApi
+    let client = (new ProducerClientEdge ()) :> IProducerApi
+    //let client = (new ProducerClientEdgeFake ()) :> IProducerApi
 
     async {
         return! client.GetItem { GetItemRequest.sku = "a" }
