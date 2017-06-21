@@ -138,6 +138,11 @@
       <Project>{c8db95fb-650f-4684-9eb1-155c46bec560}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\ProducerFake\ProducerEdgeFake.fsproj">
+      <Name>ProducerEdgeFake</Name>
+      <Project>{57c4a7bb-ced4-464d-9d25-8fde1b887441}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Types\Producer.Domain.fsproj">
       <Name>Producer.Domain</Name>
       <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
