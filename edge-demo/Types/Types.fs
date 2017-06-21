@@ -7,6 +7,7 @@ type Sku = string
 type ItemState = {
     sku: Sku
     quantity: int
+    price: decimal
 }
 
 // Requests

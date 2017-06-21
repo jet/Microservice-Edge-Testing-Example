@@ -17,6 +17,7 @@ type ``Quantity Updates Correctly`` () =
             {
                 ItemState.sku = "testsku"
                 quantity = 2
+                price = 1.0m
             }
         let shouldFail =
             initialState
@@ -32,13 +33,14 @@ type ``Quantity Updates Correctly`` () =
             {
                 ItemState.sku = "testsku"
                 quantity = 2
+                price = 1.0m
             }
         let shouldFail =
             initialState
             |> Some
             |> UpdateQuantity
             <| Decrement 2
-        Assert.Equal(UpdateQuantityResponse.Updated { ItemState.sku = "testsku"; quantity = 0 }, shouldFail)
+        Assert.Equal(UpdateQuantityResponse.Updated { ItemState.sku = "testsku"; price = 1.0m; quantity = 0 }, shouldFail)
 
     [<Fact>]
     let ``Incrementing quantity persists`` () =
@@ -47,13 +49,13 @@ type ``Quantity Updates Correctly`` () =
                 { UpdateQuantityRequest.sku = "a"; action = UpdateQuantityAction.Increment 2 }
                 |> edge.UpdateQuantity
                 |> Async.RunSynchronously
-            Assert.Equal(UpdateQuantityResponse.Updated { ItemState.sku = "a"; quantity = 3 }, result)
+            Assert.Equal(UpdateQuantityResponse.Updated { ItemState.sku = "a"; price = 1.0m; quantity = 3 }, result)
 
             let state =
                 { GetItemRequest.sku = "a" }
                 |> edge.GetItem
                 |> Async.RunSynchronously
-            Assert.Equal(GetItemResponse.Success { ItemState.sku = "a"; quantity = 3 }, state)
+            Assert.Equal(GetItemResponse.Success { ItemState.sku = "a"; price = 1.0m; quantity = 3 }, state)
 
         (new ProducerInternalEdge (new FakeDatabase ())) :> IProducerApi |> test
         (new ProducerClientEdgeFake ()) :> IProducerApi |> test
@@ -66,7 +68,7 @@ type ``Quantity Updates Correctly`` () =
                 { UpdateQuantityRequest.sku = "a"; action = UpdateQuantityAction.Decrement 2 }
                 |> edge.UpdateQuantity
                 |> Async.RunSynchronously
-            Assert.Equal(UpdateQuantityResponse.Failed { ItemState.sku = "a"; quantity = 1 }, result)
+            Assert.Equal(UpdateQuantityResponse.Failed { ItemState.sku = "a"; price = 1.0m; quantity = 1 }, result)
 
 
         (new ProducerInternalEdge (new FakeDatabase ())) :> IProducerApi |> test
