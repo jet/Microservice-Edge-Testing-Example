@@ -1,18 +1,18 @@
-﻿open Suave
+﻿open System
+open System.Threading.Tasks
+open Suave
 open Suave.Successful
 open Suave.Web
 open Suave.Operators
 open Suave.Filters
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
-open System
-open System.Threading.Tasks
 open Producer.Domain.Types
 open JsonStorage.SkuStorage
 open Controllers
 
 [<AutoOpen>]
-module Helpers = 
+module Helpers =
     let toJson v =
         let jsonSerializerSettings = new JsonSerializerSettings()
         jsonSerializerSettings.ContractResolver <- new CamelCasePropertyNamesContractResolver()
@@ -27,7 +27,7 @@ module Helpers =
         let getString rawForm =
             System.Text.Encoding.UTF8.GetString(rawForm)
         req.rawForm |> getString |> fromJson<'a>
-        
+
     let inline startAsPlainTask (work : Async<unit>) = Task.Factory.StartNew(fun () -> work |> Async.RunSynchronously)
 
 let startServer (db: ISkuDatabase) =

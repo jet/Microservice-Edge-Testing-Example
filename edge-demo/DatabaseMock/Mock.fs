@@ -7,7 +7,6 @@ open Producer.Domain.Types
 // This file is a fake database mock, that implements
 // the interface of a real DB adapter but sits in memory
 
-
 type Database = Map<string, ItemState>
 
 type FakeDatabase () =
@@ -30,4 +29,3 @@ type FakeDatabase () =
             |> getDatabase
             |> Map.add item.sku item
             |> writeDatabase
-    

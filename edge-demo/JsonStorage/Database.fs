@@ -2,13 +2,12 @@
 
 open System
 open System.IO
-open Producer.Domain.Types
 open Newtonsoft.Json
+open Producer.Domain.Types
 
 // This file represents an adapter for whatever database you are using
 // this would be calling mongo, docdb, whatever, but is using
 // the filesystem to decrease dependencies for this demo
-
 
 type Database = Map<string, ItemState>
 
@@ -35,4 +34,3 @@ type JsonDatabase () =
             |> getDatabase
             |> Map.add item.sku item
             |> writeDatabase
-    

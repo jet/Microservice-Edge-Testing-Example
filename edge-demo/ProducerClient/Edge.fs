@@ -1,26 +1,27 @@
 ﻿module ProducerClient.Client
 
-open FSharp.Data
-open Producer.Domain.Constants
-open Producer.Domain.Types
-open Newtonsoft.Json
 open System
 open System.Net
 open System.Net.Http
+open FSharp.Data
+open Newtonsoft.Json
 open Helpers
+open Producer.Domain.Constants
+open Producer.Domain.Types
 
-type ProducerClientEdge () =
+type ProducerClientEdge (path:Uri) =
     interface IProducerApi with
         member x.GetItem (request: GetItemRequest) : Async<GetItemResponse> = async {
             return
                 request
-                |> Helpers.httpPost ("http://localhost:8080" + Producer.Domain.Constants.itemRoute)
+                //TODO: confirm that this absoluteUri works
+                |> Helpers.httpPost (sprintf "%s%s" path.AbsoluteUri Producer.Domain.Constants.itemRoute)
                 |> (fun (resText: string) -> JsonConvert.DeserializeObject<GetItemResponse> resText)
         }
-        
+
         member x.UpdateQuantity (request: UpdateQuantityRequest) = async {
             return
                 request
-                |> Helpers.httpPost ("http://localhost:8080" + Producer.Domain.Constants.updateQuantityRoute)
+                |> Helpers.httpPost (sprintf "%s%s" path.AbsoluteUri Producer.Domain.Constants.updateQuantityRoute)
                 |> (fun (resText: string) -> JsonConvert.DeserializeObject<UpdateQuantityResponse> resText)
         }

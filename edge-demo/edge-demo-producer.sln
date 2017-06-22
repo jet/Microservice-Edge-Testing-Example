@@ -1,13 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{7B4A988B-514D-4CB5-8A9C-503AFC0E3382}"
-	ProjectSection(SolutionItems) = preProject
-		paket.dependencies = paket.dependencies
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Distributables", "Distributables", "{3AA2F04C-5697-498B-B879-6BA134BDD742}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Producer.Domain", "Types\Producer.Domain.fsproj", "{5255AD49-A1CB-4C05-B1DF-A075CFB44F13}"
@@ -20,11 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Internals", "Internals", "{
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProducerTests", "ProducerTests\ProducerTests.fsproj", "{8F249845-F922-4695-B4FD-8BA0CC71CB83}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{94B834BA-778A-46A1-9296-FC59C459104C}"
-	ProjectSection(SolutionItems) = preProject
-		paket.dependencies = paket.dependencies
-	EndProjectSection
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Producer.Server", "Producer.Server\Producer.Server.fsproj", "{C8DB95FB-650F-4684-9EB1-155C46BEC560}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{608B6642-EA0A-4CAF-AB07-25345ABDB032}"
@@ -34,6 +24,12 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DatabaseAdapter", "JsonStorage\DatabaseAdapter.fsproj", "{ADEF1EC8-BF31-4520-9266-E3E85EF932E1}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DatabaseMock", "DatabaseMock\DatabaseMock.fsproj", "{9D485E51-38C8-40B9-BFFF-79BCC2A4A041}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{10241DC6-272E-402A-98C1-F89E03B898C0}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+		paket.lock = paket.lock
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

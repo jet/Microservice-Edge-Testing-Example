@@ -8,13 +8,12 @@ open Controllers
 open Producer.Logic.Quantity
 open Producer.Domain.Types
 
-
 type ProducerInternalEdge (database: ISkuDatabase) =
     interface IProducerApi with
         member x.GetItem (request: GetItemRequest) : Async<GetItemResponse> = async {
             return getItem database request
         }
-        
+
         member x.UpdateQuantity (request: UpdateQuantityRequest) = async {
             return handleUpdateQuantity database request
         }

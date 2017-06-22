@@ -1,16 +1,15 @@
 ﻿namespace ProducerTests.Tests
 
 open System
+open Xunit
 open Producer.Domain.Types
 open Producer.Logic.Quantity
 open Producer.DirectEdge
 open ProducerFake.Client
 open DatabaseMock.SkuStorage
-open Xunit
-
 
 type ``Quantity Updates Correctly`` () =
-    
+
     [<Fact>]
     let ``Decrementing quantity past 0 doesn't change state`` () =
         let initialState =
@@ -48,8 +47,8 @@ type ``Quantity Updates Correctly`` () =
             (new ProducerInternalEdge (new FakeDatabase ())) :> IProducerApi
             (new ProducerClientEdgeFake ()) :> IProducerApi
         ]
-        |> List.iter test 
-        
+        |> List.iter test
+
     [<Fact>]
     let ``Incrementing quantity persists`` () =
         let test (edge: IProducerApi) =
@@ -78,4 +77,3 @@ type ``Quantity Updates Correctly`` () =
             Assert.Equal(UpdateQuantityResponse.Failed { ItemState.sku = "a"; price = 1.0m; quantity = 1 }, result)
 
         testBoth test
-

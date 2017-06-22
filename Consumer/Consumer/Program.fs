@@ -4,9 +4,9 @@ open ProducerFake.Client
 open Producer.Domain.Types
 
 [<EntryPoint>]
-let main argv = 
+let main argv =
     printfn "%A" argv
-    let client = (new ProducerClientEdge ()) :> IProducerApi
+    let client = (new ProducerClientEdge(new Uri("http://localhost:8080"))) :> IProducerApi
     //let client = (new ProducerClientEdgeFake ()) :> IProducerApi
 
     async {
