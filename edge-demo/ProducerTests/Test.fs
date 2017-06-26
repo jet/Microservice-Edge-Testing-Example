@@ -4,7 +4,6 @@ open System
 open Xunit
 open Producer.Domain.Types
 open Producer.Logic.Quantity
-open Producer.DirectEdge
 open ProducerFake.Client
 open DatabaseMock.SkuStorage
 

@@ -122,6 +122,11 @@
       <Project>{9d485e51-38c8-40b9-bfff-79bcc2a4a041}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\DirectEdge\DirectEdge.fsproj">
+      <Name>DirectEdge</Name>
+      <Project>{c3ff950e-2095-403a-a249-434fd7d39fe6}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Producer.Logic\Producer.Logic.fsproj">
       <Name>Producer.Logic</Name>
       <Project>{d147f6f5-ff74-48e8-b7e3-55649ea34e66}</Project>

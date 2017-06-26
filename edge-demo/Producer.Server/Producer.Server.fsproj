@@ -47,7 +47,6 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Controllers.fs" />
-    <Compile Include="DirectEdge.fs" />
     <Compile Include="Program.fs" />
     <None Include="app.config" />
     <None Include="paket.references" />
