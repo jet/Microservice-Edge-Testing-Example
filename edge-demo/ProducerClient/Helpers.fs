@@ -15,13 +15,10 @@ let httpPost (url:string) payload =
     req.ContentType <- "application/json";
     req.ContentLength <- int64 postBytes.Length
 
-    // Write data to the request
     let reqStream = req.GetRequestStream()
     reqStream.Write(postBytes, 0, postBytes.Length);
     reqStream.Close()
 
-    // Obtain response and download the resulting page
-    // (The sample contains the first & last name from POST data)
     let resp = req.GetResponse()
     let stream = resp.GetResponseStream()
     let reader = new StreamReader(stream)

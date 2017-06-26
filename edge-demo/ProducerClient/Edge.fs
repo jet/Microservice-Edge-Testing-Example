@@ -15,13 +15,13 @@ type ProducerClientEdge (path:Uri) =
             return
                 request
                 //TODO: confirm that this absoluteUri works
-                |> Helpers.httpPost (sprintf "%s%s" path.AbsoluteUri Producer.Domain.Constants.itemRoute)
+                |> Helpers.httpPost (sprintf "%s%s" path.OriginalString Producer.Domain.Constants.itemRoute)
                 |> (fun (resText: string) -> JsonConvert.DeserializeObject<GetItemResponse> resText)
         }
 
         member x.UpdateQuantity (request: UpdateQuantityRequest) = async {
             return
                 request
-                |> Helpers.httpPost (sprintf "%s%s" path.AbsoluteUri Producer.Domain.Constants.updateQuantityRoute)
+                |> Helpers.httpPost (sprintf "%s%s" path.OriginalString Producer.Domain.Constants.updateQuantityRoute)
                 |> (fun (resText: string) -> JsonConvert.DeserializeObject<UpdateQuantityResponse> resText)
         }

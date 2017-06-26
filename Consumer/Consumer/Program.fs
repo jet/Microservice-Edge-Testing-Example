@@ -1,5 +1,8 @@
 ﻿module Consumer.Main
+
 open System
+open Consumer.Service
+open Consumer.Domain.Types
 open ProducerClient.Client
 open ProducerFake.Client
 open Producer.Domain.Types
@@ -11,17 +14,14 @@ let main argv =
     let client = (new ProducerClientEdge(new Uri("http://localhost:8080"))) :> IProducerApi
     //let client = (new ProducerClientEdgeFake ()) :> IProducerApi
 
+    let service = (new ConsumerService (client)) :> IConsumerApi
+
     async {
         return! client.GetItem { GetItemRequest.sku = "a" }
     } |> Async.RunSynchronously
     |> printfn "%A"
-    async {
-        return! client.UpdateQuantity
-            {
-                UpdateQuantityRequest.sku = "a"
-                action = Increment 2
-            }
-    }
+
+    service.Overstocked "a" 2
     |> Async.RunSynchronously
     |> printfn "%A"
 
