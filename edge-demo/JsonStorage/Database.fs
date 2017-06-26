@@ -18,7 +18,7 @@ type JsonDatabase () =
 
     let getDatabase () : Database =
         File.ReadAllText(databaseFile)
-        |> (fun (resText: string) -> JsonConvert.DeserializeObject<Database> resText) //TODO: rename "resText" to something more descriptive
+        |> (fun (itemMapAsText: string) -> JsonConvert.DeserializeObject<Database> itemMapAsText)
 
     let writeDatabase (database: Database) =
         database

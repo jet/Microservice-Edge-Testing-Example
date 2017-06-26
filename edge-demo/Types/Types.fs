@@ -48,6 +48,9 @@ type IProducerApi =
     // abstract member SubscribeToUpdateQuantity: AsyncSeq<UpdateQuantityResponse>
 
 type ISkuDatabase =
-    abstract member GetSku: Sku -> ItemState option //TODO: put comments describing what this member does
+    /// Given a sku this will return the current state of the item
+    abstract member GetSku: Sku -> ItemState option
 
-    abstract member UpdateSku: ItemState -> unit //TODO: put comments describing what this member does
+    /// Given a state for an item, this will update the current sku
+    /// in the db to have the given state
+    abstract member UpdateSku: ItemState -> unit
