@@ -6,14 +6,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>8f249845-f922-4695-b4fd-8ba0cc71cb83</ProjectGuid>
+    <ProjectGuid>5608de98-55f1-46b7-ac3e-9535da36e99e</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ProducerTests</RootNamespace>
-    <AssemblyName>ProducerTests</AssemblyName>
+    <RootNamespace>EdgeTests</RootNamespace>
+    <AssemblyName>EdgeTests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>ProducerTests</Name>
+    <Name>EdgeTests</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,7 +24,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\ProducerTests.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\EdgeTests.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,7 +33,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\ProducerTests.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\EdgeTests.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -51,7 +51,6 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
-  <Import Project="..\.paket\paket.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -59,52 +58,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Test.fs" />
-    <Content Include="app.config" />
-    <None Include="paket.references" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="xunit.runner.tdnet">
-      <HintPath>..\packages\xunit.extensibility.core\lib\netstandard1.1\xunit.runner.tdnet.dll</HintPath>
-    </Reference>
-    <Reference Include="xunit.runner.utility.net452">
-      <HintPath>..\packages\xunit.extensibility.core\lib\netstandard1.1\xunit.runner.utility.net452.dll</HintPath>
-    </Reference>
-    <ProjectReference Include="..\DatabaseMock\DatabaseMock.fsproj">
-      <Name>DatabaseMock</Name>
-      <Project>{9d485e51-38c8-40b9-bfff-79bcc2a4a041}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Producer.Logic\Producer.Logic.fsproj">
-      <Name>Producer.Logic</Name>
-      <Project>{d147f6f5-ff74-48e8-b7e3-55649ea34e66}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Producer.Server\Producer.Server.fsproj">
-      <Name>Producer.Server</Name>
-      <Project>{c8db95fb-650f-4684-9eb1-155c46bec560}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\ProducerFake\ProducerEdgeFake.fsproj">
-      <Name>ProducerEdgeFake</Name>
-      <Project>{57c4a7bb-ced4-464d-9d25-8fde1b887441}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Types\Producer.Domain.fsproj">
-      <Name>Producer.Domain</Name>
-      <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6'">
       <ItemGroup>
@@ -149,4 +102,56 @@
       </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Helpers.fs" />
+    <Compile Include="EdgeTests.fs" />
+    <None Include="paket.references" />
+    <Content Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\DatabaseMock\DatabaseMock.fsproj">
+      <Name>DatabaseMock</Name>
+      <Project>{9d485e51-38c8-40b9-bfff-79bcc2a4a041}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Producer.Logic\Producer.Logic.fsproj">
+      <Name>Producer.Logic</Name>
+      <Project>{d147f6f5-ff74-48e8-b7e3-55649ea34e66}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Producer.Server\Producer.Server.fsproj">
+      <Name>Producer.Server</Name>
+      <Project>{c8db95fb-650f-4684-9eb1-155c46bec560}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ProducerClient\ProducerEdge.fsproj">
+      <Name>ProducerEdge</Name>
+      <Project>{3d84195d-a358-425b-9990-dda6da46f389}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ProducerFake\ProducerEdgeFake.fsproj">
+      <Name>ProducerEdgeFake</Name>
+      <Project>{57c4a7bb-ced4-464d-9d25-8fde1b887441}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Types\Producer.Domain.fsproj">
+      <Name>Producer.Domain</Name>
+      <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <Reference Include="xunit.runner.tdnet">
+      <HintPath>..\packages\xunit.extensibility.core\lib\netstandard1.1\xunit.runner.tdnet.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.runner.utility.net452">
+      <HintPath>..\packages\xunit.extensibility.core\lib\netstandard1.1\xunit.runner.utility.net452.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

@@ -42,38 +42,3 @@ type ``Quantity Updates Correctly`` () =
         Assert.Equal(UpdateQuantityResponse.Updated { ItemState.sku = "testsku"; price = 1.0m; quantity = 0 }, shouldFail)
 
 
-    let testBoth test =
-        [
-            (new ProducerInternalEdge (new FakeDatabase ())) :> IProducerApi
-            (new ProducerClientEdgeFake ()) :> IProducerApi
-        ]
-        |> List.iter test
-
-    [<Fact>]
-    let ``Incrementing quantity persists`` () =
-        let test (edge: IProducerApi) =
-            let result =
-                { UpdateQuantityRequest.sku = "a"; action = UpdateQuantityAction.Increment 2 }
-                |> edge.UpdateQuantity
-                |> Async.RunSynchronously
-            Assert.Equal(UpdateQuantityResponse.Updated { ItemState.sku = "a"; price = 1.0m; quantity = 3 }, result)
-
-            let state =
-                { GetItemRequest.sku = "a" }
-                |> edge.GetItem
-                |> Async.RunSynchronously
-            Assert.Equal(GetItemResponse.Success { ItemState.sku = "a"; price = 1.0m; quantity = 3 }, state)
-
-        testBoth test
-
-
-    [<Fact>]
-    let ``Decrementing quantity doesn't go past 0`` () =
-        let test (edge: IProducerApi) =
-            let result =
-                { UpdateQuantityRequest.sku = "a"; action = UpdateQuantityAction.Decrement 2 }
-                |> edge.UpdateQuantity
-                |> Async.RunSynchronously
-            Assert.Equal(UpdateQuantityResponse.Failed { ItemState.sku = "a"; price = 1.0m; quantity = 1 }, result)
-
-        testBoth test
