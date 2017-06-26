@@ -1,8 +1,10 @@
-﻿open System
+﻿module Consumer.Main
+open System
 open ProducerClient.Client
 open ProducerFake.Client
 open Producer.Domain.Types
-
+    
+    
 [<EntryPoint>]
 let main argv =
     printfn "%A" argv
