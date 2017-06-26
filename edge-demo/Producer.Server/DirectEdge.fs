@@ -4,6 +4,8 @@
 // same as calling this service using the distributed edge,
 // only without going over a protocol like http or kafka
 
+//TODO-Rand: consider whether or not this belongs to edge testing
+
 open Controllers
 open Producer.Logic.Quantity
 open Producer.Domain.Types

@@ -9,13 +9,13 @@ let UpdateQuantity (currentState: ItemState option) (action: UpdateQuantityActio
     match currentState, action with
     | None, _ -> UpdateQuantityResponse.NotFound
     | Some state, Update newTotal ->
-        Updated { state with quantity = newTotal }
+        { state with quantity = newTotal } |> UpdateQuantityResponse.Updated
     | Some state, Decrement difference ->
         let newQuantity = state.quantity - difference
         if newQuantity >= 0
         then
-            UpdateQuantityResponse.Updated { state with quantity = newQuantity }
+            { state with quantity = newQuantity } |> UpdateQuantityResponse.Updated
         else
-            UpdateQuantityResponse.Failed state
+            state |> UpdateQuantityResponse.Failed
     | Some state, Increment difference ->
-        Updated { state with quantity = state.quantity + difference }
+        { state with quantity = state.quantity + difference } |> UpdateQuantityResponse.Updated

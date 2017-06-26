@@ -17,8 +17,8 @@ type ProducerClientEdgeFake () =
                 request.sku
                 |> database.GetSku
                 |> function
-                | Some state -> GetItemResponse.Success state
-                | None -> GetItemResponse.NotFound
+                   | Some state -> GetItemResponse.Success state
+                   | None -> GetItemResponse.NotFound
         }
 
         member x.UpdateQuantity (request: UpdateQuantityRequest) = async {

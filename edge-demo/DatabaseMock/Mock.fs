@@ -20,12 +20,10 @@ type FakeDatabase () =
 
     interface ISkuDatabase with
         member x.GetSku sku =
-            ()
-            |> getDatabase
+            getDatabase ()
             |> Map.tryFind sku
 
         member x.UpdateSku (item: ItemState) =
-            ()
-            |> getDatabase
+            getDatabase ()
             |> Map.add item.sku item
             |> writeDatabase
