@@ -12,3 +12,10 @@ and this file will be modified as the database is modified simulating a real mut
 
 To initialize it, or to reset the database if you do not like your mutations,
 copy the supplied `database.json` from this directory to the specified location.
+
+## Kafka
+
+Kafka is run through docker, a simple `docker-compose up` should spin up the kafka instance for you.
+
+If you are running this in a windows VM through parallels, make sure to enable nested virtualization in parallels,
+and that you allocate the VM 8192 MB of RAM. Less or More than that seems to be unstable
