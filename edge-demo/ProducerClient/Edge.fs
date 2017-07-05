@@ -8,6 +8,7 @@ open Newtonsoft.Json
 open Helpers
 open Producer.Domain.Constants
 open Producer.Domain.Types
+open Kafunk
 
 type ProducerClientEdge (path:Uri) =
     interface IProducerApi with
