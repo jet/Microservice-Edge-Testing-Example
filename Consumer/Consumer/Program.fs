@@ -30,5 +30,10 @@ let main argv =
         return! client.GetItem { GetItemRequest.sku = "a" }
     } |> Async.RunSynchronously
     |> printfn "%A"
+
+    { SetPriceRequest.sku = "a" ; price = 99.0m }
+    |> client.SetPrice
+    |> printfn "%A"
+
     Console.ReadKey() |> ignore
     0

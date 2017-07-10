@@ -26,6 +26,11 @@ type GetItemRequest = {
     sku: Sku
 }
 
+type SetPriceRequest = {
+    sku: Sku
+    price: decimal
+}
+
 // Responses
 
 type UpdateQuantityResponse =
@@ -41,11 +46,17 @@ type GetItemResponse =
 // Interfaces
 
 type IProducerApi =
+    /// Increases, decreases, or sets the value of quantity for a sku
     abstract member UpdateQuantity: UpdateQuantityRequest -> Async<UpdateQuantityResponse>
 
+    /// Get the current state of an item by sku
     abstract member GetItem: GetItemRequest -> Async<GetItemResponse>
+
     // TODO find out AsyncSeq Type
     // abstract member SubscribeToUpdateQuantity: AsyncSeq<UpdateQuantityResponse>
+
+    /// Set the exact price of a sku
+    abstract member SetPrice: SetPriceRequest -> unit
 
 type ISkuDatabase =
     /// Given a sku this will return the current state of the item

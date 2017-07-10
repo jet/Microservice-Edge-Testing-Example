@@ -21,3 +21,13 @@ let handleUpdateQuantity (db: ISkuDatabase) (req: Producer.Domain.Types.UpdateQu
     | _ -> ()
 
     res
+
+let updatePrice (db: ISkuDatabase) (req: Producer.Domain.Types.SetPriceRequest) =
+    req.sku
+    |> db.GetSku
+    |> (function
+        | Some itemState ->
+            { itemState with price = req.price }
+            |> db.UpdateSku
+        | None -> () // probably log here too...
+    )
