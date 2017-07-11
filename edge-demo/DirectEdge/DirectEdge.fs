@@ -8,6 +8,8 @@ open Controllers
 open Producer.Domain.Types
 
 type ProducerInternalEdge (database: ISkuDatabase) =
+    let stateChangeEvent = new Event<ItemState> ()
+
     interface IProducerApi with
         member x.GetItem (request: GetItemRequest) : Async<GetItemResponse> = async {
             return getItem database request
@@ -16,3 +18,10 @@ type ProducerInternalEdge (database: ISkuDatabase) =
         member x.UpdateQuantity (request: UpdateQuantityRequest) = async {
             return handleUpdateQuantity database request
         }
+
+        member x.SetPrice request =
+            request
+            |> updatePrice database stateChangeEvent.Trigger
+
+        member x.StateChange () =
+            stateChangeEvent.Publish

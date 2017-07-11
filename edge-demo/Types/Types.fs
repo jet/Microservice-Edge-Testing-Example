@@ -58,6 +58,9 @@ type IProducerApi =
     /// Set the exact price of a sku
     abstract member SetPrice: SetPriceRequest -> unit
 
+    /// Alert on price changes
+    abstract member StateChange: unit -> IEvent<ItemState>
+
 type ISkuDatabase =
     /// Given a sku this will return the current state of the item
     abstract member GetSku: Sku -> ItemState option

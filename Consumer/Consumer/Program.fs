@@ -11,10 +11,12 @@ open Producer.Domain.Types
 [<EntryPoint>]
 let main argv =
     printfn "%A" argv
-    let client = (new ProducerClientEdge(new Uri("http://localhost:8080"))) :> IProducerApi
-    //let client = (new ProducerClientEdgeFake ()) :> IProducerApi
+    //let client = (new ProducerClientEdge(new Uri("http://localhost:8080"))) :> IProducerApi
+    let client = (new ProducerClientEdgeFake ()) :> IProducerApi
 
     let service = (new ConsumerService (client)) :> IConsumerApi
+
+    (client.StateChange ()).Add (fun newState -> printfn "A sku just got updated to look like this %A" newState)
 
     async {
         return! client.GetItem { GetItemRequest.sku = "a" }

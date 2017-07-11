@@ -11,6 +11,8 @@ type ProducerClientEdgeFake () =
 
     let database = (new FakeDatabase ()) :> ISkuDatabase
 
+    let stateChangeEvent = new Event<ItemState> ()
+
     interface IProducerApi with
         member x.GetItem (request: GetItemRequest) : Async<GetItemResponse> = async {
             return
@@ -34,3 +36,18 @@ type ProducerClientEdgeFake () =
 
             return res
         }
+
+        member x.SetPrice request =
+            request.sku
+            |> database.GetSku
+            |> (function
+                | Some itemState ->
+                    let newState = 
+                        { itemState with price = request.price }
+                    newState |> database.UpdateSku
+                    newState |> stateChangeEvent.Trigger
+                | None -> ()
+            )
+
+        member x.StateChange () =
+            stateChangeEvent.Publish
