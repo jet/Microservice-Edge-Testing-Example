@@ -44,8 +44,12 @@ type ProducerClientEdgeFake () =
                 | Some itemState ->
                     let newState = 
                         { itemState with price = request.price }
-                    newState |> database.UpdateSku
-                    newState |> stateChangeEvent.Trigger
+                    if newState <> itemState
+                    then
+                        newState |> database.UpdateSku
+                        newState |> stateChangeEvent.Trigger
+                    else
+                        ()
                 | None -> ()
             )
 

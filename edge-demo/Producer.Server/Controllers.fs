@@ -29,7 +29,12 @@ let updatePrice (db: ISkuDatabase) (transmitCallback: ItemState -> unit) (req: P
         | Some itemState ->
             let newState = 
                 { itemState with price = req.price }
-            newState |> db.UpdateSku
-            newState |> transmitCallback
+
+            if newState <> itemState
+            then
+                newState |> db.UpdateSku
+                newState |> transmitCallback
+            else
+                ()
         | None -> () // maybe log here or write another event
     )

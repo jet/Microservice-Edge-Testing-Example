@@ -11,8 +11,8 @@ open Producer.Domain.Types
 [<EntryPoint>]
 let main argv =
     printfn "%A" argv
-    //let client = (new ProducerClientEdge(new Uri("http://localhost:8080"))) :> IProducerApi
-    let client = (new ProducerClientEdgeFake ()) :> IProducerApi
+    let client = (new ProducerClientEdge(new Uri("http://localhost:8080"))) :> IProducerApi
+    //let client = (new ProducerClientEdgeFake ()) :> IProducerApi
 
     let service = (new ConsumerService (client)) :> IConsumerApi
 
@@ -33,7 +33,7 @@ let main argv =
     } |> Async.RunSynchronously
     |> printfn "%A"
 
-    { SetPriceRequest.sku = "a" ; price = 99.0m }
+    { SetPriceRequest.sku = "a" ; price = 98m }
     |> client.SetPrice
     |> printfn "%A"
 
