@@ -36,3 +36,18 @@ type ``Quantity Updates And Persists Correctly`` () =
             Assert.Equal(UpdateQuantityResponse.Failed { ItemState.sku = "a"; price = 1.0m; quantity = 1 }, result)
 
         testBoth test
+
+    [<Fact>]
+    let ``Updating Price Emits Event Response`` () =
+        let test (edge: IProducerApi) =
+            let priceEvent = edge.StateChange ()
+            let mutable hasTriggeredListener = false
+
+            priceEvent.Add (fun _ -> hasTriggeredListener <- true)
+
+            { SetPriceRequest.sku = "a"; price = 70m}
+            |> edge.SetPrice 
+
+            Assert.Equal(true, hasTriggeredListener)
+
+        testBoth test

@@ -108,12 +108,6 @@
       <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <Reference Include="xunit.runner.tdnet">
-      <HintPath>..\packages\xunit.extensibility.core\lib\netstandard1.1\xunit.runner.tdnet.dll</HintPath>
-    </Reference>
-    <Reference Include="xunit.runner.utility.net452">
-      <HintPath>..\packages\xunit.extensibility.core\lib\netstandard1.1\xunit.runner.utility.net452.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6'">
