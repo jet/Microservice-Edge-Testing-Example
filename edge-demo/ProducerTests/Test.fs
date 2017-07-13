@@ -19,10 +19,11 @@ type ``Quantity Updates Correctly`` () =
             }
         let shouldFail =
             initialState
-            |> Some
+            |> DatabaseReadResult.Success
             |> UpdateQuantity
             <| Decrement 3
-        Assert.Equal(UpdateQuantityResponse.Failed initialState, shouldFail)
+
+        Assert.Equal(UpdateQuantityResponse.Failed, shouldFail)
 
 
     [<Fact>]
@@ -35,7 +36,7 @@ type ``Quantity Updates Correctly`` () =
             }
         let shouldFail =
             initialState
-            |> Some
+            |> DatabaseReadResult.Success
             |> UpdateQuantity
             <| Decrement 2
         Assert.Equal(UpdateQuantityResponse.Updated { ItemState.sku = "testsku"; price = 1.0m; quantity = 0 }, shouldFail)

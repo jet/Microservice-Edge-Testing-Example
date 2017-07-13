@@ -33,7 +33,7 @@ type ``Quantity Updates And Persists Correctly`` () =
                 { UpdateQuantityRequest.sku = "a"; action = UpdateQuantityAction.Decrement 2 }
                 |> edge.UpdateQuantity
                 |> Async.RunSynchronously
-            Assert.Equal(UpdateQuantityResponse.Failed { ItemState.sku = "a"; price = 1.0m; quantity = 1 }, result)
+            Assert.Equal(UpdateQuantityResponse.Failed, result)
 
         testBoth test
 

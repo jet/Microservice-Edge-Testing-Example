@@ -16,9 +16,13 @@ type Database = Map<string, ItemState>
 type JsonDatabase () =
     let [<Literal>] databaseFile = "database.json"
 
-    let getDatabase () : Database =
-        File.ReadAllText(databaseFile)
-        |> (fun (itemMapAsText: string) -> JsonConvert.DeserializeObject<Database> itemMapAsText)
+    let getDatabase () : Database option =
+        try
+            File.ReadAllText(databaseFile)
+            |> (fun (itemMapAsText: string) -> JsonConvert.DeserializeObject<Database> itemMapAsText)
+            |> Some
+        with
+            | ex -> None
 
     let writeDatabase (database: Database) =
         database
@@ -27,10 +31,18 @@ type JsonDatabase () =
 
     interface ISkuDatabase with
         member x.GetSku sku =
-            getDatabase ()
-            |> Map.tryFind sku
+            // This match flow might be better done as a choice but I'd rather not introduce that
+            match getDatabase () with
+            | None -> DatabaseReadResult.Failed
+            | Some database ->
+                match Map.tryFind sku database with
+                | Some res -> DatabaseReadResult.Success res
+                | None -> DatabaseReadResult.NotFound
 
         member x.UpdateSku (item: ItemState) =
-            getDatabase ()
-            |> Map.add item.sku item
-            |> writeDatabase
+            match getDatabase () with
+            | None -> ()
+            | Some database ->
+                database
+                |> Map.add item.sku item
+                |> writeDatabase

@@ -22,6 +22,10 @@ type FakeDatabase () =
         member x.GetSku sku =
             getDatabase ()
             |> Map.tryFind sku
+            |> (function
+                | Some res -> DatabaseReadResult.Success res
+                | None -> DatabaseReadResult.NotFound
+            )
 
         member x.UpdateSku (item: ItemState) =
             getDatabase ()

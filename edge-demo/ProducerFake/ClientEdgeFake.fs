@@ -13,45 +13,66 @@ type ProducerClientEdgeFake () =
 
     let stateChangeEvent = new Event<ItemState> ()
 
+    let mutable databaseDown = false
+
+    // The fake edge exposes ways to simulate failure states or conditions of the producer
+    // This could be poor network connectivity, degraded experience, or in this case a downed DB
+    member x.DatabaseStatus status =
+        databaseDown <- status
+
     interface IProducerApi with
         member x.GetItem (request: GetItemRequest) : Async<GetItemResponse> = async {
             return
-                request.sku
-                |> database.GetSku
-                |> function
-                   | Some state -> GetItemResponse.Success state
-                   | None -> GetItemResponse.NotFound
+                if databaseDown
+                then
+                    GetItemResponse.Failed
+                else 
+                    request.sku
+                    |> database.GetSku
+                    |> function
+                       | DatabaseReadResult.Success state -> GetItemResponse.Success state
+                       | DatabaseReadResult.NotFound -> GetItemResponse.NotFound
+                       | DatabaseReadResult.Failed -> GetItemResponse.Failed
         }
 
         member x.UpdateQuantity (request: UpdateQuantityRequest) = async {
-            let res =
-                request.sku
-                |> database.GetSku
-                |> UpdateQuantity
-                <| request.action
+            if databaseDown
+            then
+                return UpdateQuantityResponse.Failed
+            else
+                let res =
+                    request.sku
+                    |> database.GetSku
+                    |> UpdateQuantity
+                    <| request.action
 
-            match res with
-            | UpdateQuantityResponse.Updated state -> database.UpdateSku state
-            | _ -> ()
+                match res with
+                | UpdateQuantityResponse.Updated state -> database.UpdateSku state
+                | _ -> ()
 
-            return res
+                return res
         }
 
         member x.SetPrice request =
-            request.sku
-            |> database.GetSku
-            |> (function
-                | Some itemState ->
-                    let newState = 
-                        { itemState with price = request.price }
-                    if newState <> itemState
-                    then
-                        newState |> database.UpdateSku
-                        newState |> stateChangeEvent.Trigger
-                    else
-                        ()
-                | None -> ()
-            )
+            if databaseDown
+            then
+                ()
+            else
+                request.sku
+                |> database.GetSku
+                |> (function
+                    | DatabaseReadResult.Success itemState ->
+                        let newState = 
+                            { itemState with price = request.price }
+                        if newState <> itemState
+                        then
+                            newState |> database.UpdateSku
+                            newState |> stateChangeEvent.Trigger
+                        else
+                            ()
+                    | DatabaseReadResult.Failed
+                    | DatabaseReadResult.NotFound -> ()
+                )
 
         member x.StateChange () =
             stateChangeEvent.Publish

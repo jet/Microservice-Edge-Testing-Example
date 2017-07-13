@@ -6,8 +6,9 @@ open Producer.Logic.Quantity
 
 let getItem (db: ISkuDatabase) (req: Producer.Domain.Types.GetItemRequest) =
     match db.GetSku req.sku with
-    | Some item -> GetItemResponse.Success item
-    | None -> GetItemResponse.NotFound
+    | DatabaseReadResult.Success item -> GetItemResponse.Success item
+    | DatabaseReadResult.NotFound -> GetItemResponse.NotFound
+    | DatabaseReadResult.Failed -> GetItemResponse.Failed
 
 let handleUpdateQuantity (db: ISkuDatabase) (req: Producer.Domain.Types.UpdateQuantityRequest) =
     let res =
@@ -26,7 +27,7 @@ let updatePrice (db: ISkuDatabase) (transmitCallback: ItemState -> unit) (req: P
     req.sku
     |> db.GetSku
     |> (function
-        | Some itemState ->
+        | DatabaseReadResult.Success itemState ->
             let newState = 
                 { itemState with price = req.price }
 
@@ -36,5 +37,5 @@ let updatePrice (db: ISkuDatabase) (transmitCallback: ItemState -> unit) (req: P
                 newState |> transmitCallback
             else
                 ()
-        | None -> () // maybe log here or write another event
+        | _ -> () // maybe log here or write another event
     )

@@ -10,6 +10,11 @@ type ItemState = {
     price: decimal
 }
 
+type DatabaseReadResult =
+    | Success of ItemState
+    | NotFound
+    | Failed
+
 // Requests
 
 type UpdateQuantityAction =
@@ -35,7 +40,7 @@ type SetPriceRequest = {
 
 type UpdateQuantityResponse =
     | Updated of ItemState
-    | Failed of ItemState
+    | Failed
     | NotFound
 
 type GetItemResponse =
@@ -63,7 +68,7 @@ type IProducerApi =
 
 type ISkuDatabase =
     /// Given a sku this will return the current state of the item
-    abstract member GetSku: Sku -> ItemState option
+    abstract member GetSku: Sku -> DatabaseReadResult
 
     /// Given a state for an item, this will update the current sku
     /// in the db to have the given state

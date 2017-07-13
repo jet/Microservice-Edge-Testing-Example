@@ -72,7 +72,7 @@ type ProducerClientEdge (path:Uri) =
 
             // TODO find a better way to start up and set offsets
             Consumer.commitOffsets consumer [| 0, 0L |]
-            |> Async.RunSynchronously
+            |> Async.RunSynchronously 
 
             Consumer.consume consumer 
                 (fun (s:ConsumerState) (ms:ConsumerMessageSet) -> async {
