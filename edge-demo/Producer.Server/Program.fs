@@ -70,7 +70,6 @@ let createAsyncConsumer (db: ISkuDatabase) =
 
     let producer =
         Producer.createAsync conn producerCfg
-        // probably wouldn't have this sync in a real prod environment
         |> Async.RunSynchronously
 
     let broadcastStateChange =

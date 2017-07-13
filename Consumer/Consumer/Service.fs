@@ -13,3 +13,17 @@ type ConsumerService (producerClient: IProducerApi) =
                     action = Increment amount
                 }
         }
+
+        member x.NudgePriceDown sku = async {
+            let! current = { GetItemRequest.sku = sku } |> producerClient.GetItem
+
+            match current with
+            | Success item ->
+                if item.price < 0.5m
+                then
+                    { SetPriceRequest.price = item.price - 0.1m; sku = item.sku }
+                    |> producerClient.SetPrice
+                else
+                    ()
+            | _ -> ()
+        }
