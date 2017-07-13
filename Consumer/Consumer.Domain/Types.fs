@@ -10,3 +10,5 @@ type IConsumerApi =
     abstract member Overstocked: Sku -> int -> Async<UpdateQuantityResponse>
 
     abstract member NudgePriceDown: Sku -> Async<unit>
+    
+    abstract member SalesToRun: unit -> int
