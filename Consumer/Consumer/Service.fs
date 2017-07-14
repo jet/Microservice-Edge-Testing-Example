@@ -24,13 +24,18 @@ type ConsumerService (producerClient: IProducerApi) =
 
             match current with
             | Success item ->
-                if item.price < 0.5m
-                then
-                    salesToRun <- salesToRun + 1
-                    { SetPriceRequest.price = item.price - 0.1m; sku = item.sku }
-                    |> producerClient.SetPrice
-                else
-                    ()
+                let amountToDecrementBy =
+                    if item.price <= 0.5m
+                    then 0.1m * item.price
+                    else 0.5m
+                    
+                {
+                    SetPriceRequest.price = item.price - amountToDecrementBy;
+                    sku = item.sku
+                }
+                |> producerClient.SetPrice
+
+                salesToRun <- salesToRun + 1
             | _ -> ()
         }
 

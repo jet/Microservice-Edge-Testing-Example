@@ -6,7 +6,7 @@ open Consumer.Domain.Types
 open ProducerFake.Client
 open Producer.Domain.Types
 
-type ``Overstock functionality`` () = 
+type ``Core Service Functionality`` () =
 
     [<Fact>]
     let ``Overstocking persists`` () =
@@ -35,3 +35,28 @@ type ``Overstock functionality`` () =
         
         Assert.Equal(UpdateQuantityResponse.Failed, overstockResult)
         Assert.Equal(0, client.SalesToRun ())
+
+    [<Fact>]
+    let ``NudgePriceDown doesn't nudge by too much when price is already low`` () =
+        let producer = (new ProducerClientEdgeFake ()) :> IProducerApi
+        let client = (new ConsumerService (producer)) :> IConsumerApi
+
+        let mutable currentPrice = 1.0m
+
+        (fun (state: ItemState) -> currentPrice <- state.price)
+        |> (producer.StateChange ()).Add
+
+
+        "a"
+        |> client.NudgePriceDown
+        |> Async.RunSynchronously
+
+        Assert.Equal(0.5m, currentPrice)
+
+        "a"
+        |> client.NudgePriceDown
+        |> Async.RunSynchronously
+
+
+        Assert.Equal(0.45m, currentPrice)
+
