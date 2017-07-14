@@ -35,7 +35,7 @@ type ConsumerService (producerClient: IProducerApi) =
                 }
                 |> producerClient.SetPrice
 
-                salesToRun <- salesToRun + 1
+                salesToRun <- salesToRun - 1
             | _ -> ()
         }
 
