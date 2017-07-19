@@ -50,8 +50,7 @@ For every Database / Upstream service, the api to interact with it is definied
 in the domain types. There are two simple passthrough classes defined, each
 implementing this interface for a database. Also, the mocked database is
 purposefully seeded with different data to simulate a dev and QA/prod
-environment with different data. These should be easily reinitializable since a
-new mock db/upstream will likely be needed for every test.
+environment with different data.
 
 ## Producer Edge
 
