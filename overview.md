@@ -73,21 +73,28 @@ against a live kafka install.
 
 ## Producer Fake Edge
 
-Now, since we are giving the client a way to talk to the real producer, the
-interface is well definied, and we have abstracted out our business logic, we
-can easily ship another edge to them that has a self contained version of the
-producer. The `ProducerEdgeFake` does just that. By reimplementing the
-controller, we can tweak that behavior based on certain conditions to allow us
-to force certain responses to the client. This allows clients to test against
-not just the expected results, but edge cases and undesirable or degraded
-experience results from the host microservice. For example, here we have a
-mutable state inside the class representing if the database is down/unreachable.
-If your client has no such failure states you want to expose, and if it is
-simple enough, you could directly call the controllers and have a triviially
-simple fake edge. This is actually done in a third edge, called `DirectEdge`
-which is used in tests to make sure the mock behavior matches the real behavior.
-However, both of these allow testing across any arbitrary sync or async protocol
-without having to deal with workarounds or annoyances in testing like kafka.
+Now, since we are giving the client a way to talk to the real producer with a
+well defined business interface we can easily ship another edge to the consumer
+that has a self contained faked out version of the producer. The
+`ProducerEdgeFake` does just that. This behavior does not have to be production
+ready or able to handle load, but it should be a mimic of all the producer's
+behaviors and subtle nuances. In this case we were able to even include some of
+the core business logic from the real producer, but this won't always be
+possible.
+
+Also, By reimplementing the controller, we can tweak its behavior to simulate
+different states or levels of degraded performance that the producer might
+encounter in production. For example, here we implemented methods to simulate
+the producer's database being down or unreachable. This allows clients to test
+against not just the expected results, but edge cases and errors that the
+producer might throw to the client in production.
+
+Also, a simple passthrough edge can be created that calls the controllers of the
+producer directly if you want to test it directly. We do this in a third edge,
+called `DirectEdge`, calling the producer directly as a way to test the real
+implementation's functionality. Both of these also allow for fully testing the
+api without full integration tests or trying to simulate kafka brokers or
+complicated docker setups.
 
 ## Testing
 
