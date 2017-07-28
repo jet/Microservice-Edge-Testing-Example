@@ -1,26 +1,29 @@
 # Microservice Edge Testing Demo
 
 This repo is meant to be a sample implementation of a proposed pattern for
-testing the edges between microservices. This implementation illustrates the 
+testing the edges between microservices. This implementation illustrates the
 approach we are taking at Jet.com to answer the call spelled out in
-**[this blog post](https://randalldavis.github.io/microservice/testing/edge/2017/06/14/edge-testing-solution.html)**. This is meant to address the issue that the blog
-post calls out: __*non-vanilla interactions between microservices are not being
-adequately tested in microservice architectures*__.
+**[this blog post](https://randalldavis.github.io/microservice/testing/edge/2017/06/14/edge-testing-solution.html)**.
+This is meant to address the issue that the blog post calls out: __*non-vanilla
+interactions between microservices are not being adequately tested in
+microservice architectures*__.
 
-Note that this repo has code that is intentionally simplified to allow for more focus
-on the recommended patterns for edge testing and how they might play out in a real code base.
+Note that this repo has code that is intentionally simplified to allow for more
+focus on the recommended patterns for edge testing and how they might play out
+in a real code base.
 
 ## Code Overview
 
-This repo is just a sample to work through some of the real life patterns and issues
-that would arise in microservice edge testing. This hypothetical code's intent is to 
-__ENTER SOMETHING HERE ABOUT WHAT THE VERY HIGH LEVEL GIST IS OF WHAT THIS PROGRAM WOULD
-DO IF IT WAS REAL - WHAT IS THIS SAMPLE SYSTEM'S BUSINESS PURPOSE__.
+This repo is just a sample to work through some of the real life patterns and
+issues that would arise in microservice edge testing. This hypothetical code's
+intent is to simulate one microservice which acts as a store for product data
+and prices, and another which has some logic for deciding when and how to change
+some of those values.
 
-Below is a brief walkthrough of the code so that the important concepts can be discussed
-without stumbling through the code. This walkthrough will address the parts of the code 
-that are standard and expected - the patterns that are unique to this code sample will be
-covered in more depth afterward.
+Below is a brief walkthrough of the code so that the important concepts can be
+discussed without stumbling through the code. This walkthrough will address the
+parts of the code that are standard and expected - the patterns that are unique
+to this code sample will be covered in more depth afterward.
 
 ### Producer
 
@@ -90,31 +93,25 @@ against a live kafka install.
 
 ### Standard Unit Tests
 
-__DICSUSS UNIT TESTS THAT WE'D EXPECT TO SEE IN NORMAL CODEBASES__
+Standard unit tests are still possible and viable with this approach. In the
+`ProducerTests` project there are standard unit tests that test individual
+functions and bits of logic from the producer.
 
 
 ## Edge Testing Components and Practices
 
 Here's the important stuff. The
 **[blog post](https://randalldavis.github.io/microservice/testing/edge/2017/06/14/edge-testing-solution.html)**
-referenced above goes into Jet.com's approach to solving the problem with microservice 
-testing. This repo is meant to be a practical example of that solution.
+referenced above goes into Jet.com's approach to solving the problem with
+microservice testing. This repo is meant to be a practical example of that
+solution.
 
-The blog post states: __*The provider microservice edge should ship along with an intelligent fake that expresses the provider’s behaviors. The consumer microservice should use that fake to exercise its non-vanilla interactions with the provider.*__
+The blog post states: __*The provider microservice edge should ship along with
+an intelligent fake that expresses the provider’s behaviors. The consumer
+microservice should use that fake to exercise its non-vanilla interactions with
+the provider.*__
 
 ### Provider Fake
-
-### Provider Edge Testing
-
-### Consumer Testing
-
-### Testing Commands
-
-
-
-__*EVERYTHING BELOW SHOULD BE REWORKED INTO THE SECTIONS ABOVE*__
-
-### Producer Fake Edge
 
 Now, since we are giving the client a way to talk to the real producer with a
 well defined business interface we can easily ship another edge to the consumer
@@ -125,39 +122,42 @@ behaviors and subtle nuances. In this case we were able to even include some of
 the core business logic from the real producer, but this won't always be
 possible.
 
-Also, by reimplementing the controller, we can tweak its behavior to simulate
-different states or levels of degraded performance that the producer might
-encounter in production. For example, here we implemented methods to simulate
-the producer's database being down or unreachable. This allows clients to test
-against not just the expected results, but edge cases and errors that the
-producer might throw to the client in production.
+### Provider Edge Testing
 
-Also, a simple passthrough edge can be created that calls the controllers of the
-producer directly if you want to test it directly. We do this in a third edge,
-called `DirectEdge`, calling the producer directly as a way to test the real
-implementation's functionality. Both of these also allow for fully testing the
-api without full integration tests or trying to simulate kafka brokers or
-complicated docker setups.
+In addition to just doing the normal, targeted, smaller unit tests focused on
+individual functions, the provider also tests the entire result of calling the
+functions exposed on its edge. These test the sum of the entire functionality of
+the provider including how the bits of business logic are wired together.
 
-### Testing
+To call the producer we use simple passthrough edge that calls the controllers
+of the producer directly, defined in the `DirectEdge` project. using this, on
+every test run, we run the testing function against both the fake and actual
+code to make sure the functionality of the fake stays in parity with the real
+production version of the code. The simple helper defined in `Helpers.fs` is
+what we pass every testing function into, which runs the test against both edges
+and reinializes the fake db every test so tests are always starting from a known
+state independent of the other tests, so we can run as many of these in parallel
+as we want.
 
-In the producer testing folder, we have two types of tests. Unit tests, which
-simply call the core bits of logic in isolation as we mentioned when looking
-over the business logic module, and Edge Tests, which call the functions exposed
-on the edge, and check responses to see if the entire system is working together
-correctly. Also, on every test run, we run the testing function through a
-helper, defined in `Helpers.fs`, which runs the same test against the fake and
-actual code to make sure the functionality keeps parity. Also, this
-reinitializes the fake db every test so you are always starting from a known
-state independent of the other tests, fulfilling the requirement for fast
-parallelized test running.
+### Consumer Testing
 
 The client uses only the producer edge fake for unit tests, which like in the
 producer ensures that there is a version of the producer starting from a given
 state with a self contained database / external dependencies, with a small
 mocked-out codebase that runs entirely in memory on the consumers side. Another
-big win that this brings is that since its all self contained on the consumer's
-side once they recieve the fake, the consumer never has any dependencies on some
-kafka broker or extenal service being up, but due to the defined interface is
-aware of all the functionality and can make sure its tests align with how the
-producer actually does run.
+big win is that since the producer fake is self contained on the consumer's
+side, the consumer never has any dependencies on some kafka broker or extenal
+service being up during testing, but due to the defined interface is aware of
+all the functionality and can make sure its tests align with how the producer
+actually does run.
+
+### Testing Commands
+
+By reimplementing the controller, we can expose an interface for the client to
+tweak the fake's behavior to simulate different states or levels of degraded
+performance that the producer might encounter in production. For example, here
+we implemented methods to simulate the producer's database being down or
+unreachable. This allows clients to test against not just the expected results,
+but edge cases and errors that the producer might throw to the client in
+production.
+
