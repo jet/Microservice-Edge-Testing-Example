@@ -1,19 +1,35 @@
-# Microservice Edge Interaction Architecture Demo
+# Microservice Edge Testing Demo
 
 This repo is meant to be a sample implementation of a proposed pattern for
-architecting the edges between microservices.
+testing the edges between microservices. This implementation illustrates the 
+approach we are taking at Jet.com to answer the call spelled out in
+**[this blog post](https://randalldavis.github.io/microservice/testing/edge/2017/06/14/edge-testing-solution.html)**. This is meant to address the issue that the blog
+post calls out: __*non-vanilla interactions between microservices are not being
+adequately tested in microservice architectures*__.
 
-Also note that this project is intentionally simplified to allow for more focus
-on the patterns rather than the actual logic of the code.
+Note that this repo has code that is intentionally simplified to allow for more focus
+on the recommended patterns for edge testing and how they might play out in a real code base.
 
-## Producer
+## Code Overview
+
+This repo is just a sample to work through some of the real life patterns and issues
+that would arise in microservice edge testing. This hypothetical code's intent is to 
+__ENTER SOMETHING HERE ABOUT WHAT THE VERY HIGH LEVEL GIST IS OF WHAT THIS PROGRAM WOULD
+DO IF IT WAS REAL - WHAT IS THIS SAMPLE SYSTEM'S BUSINESS PURPOSE__.
+
+Below is a brief walkthrough of the code so that the important concepts can be discussed
+without stumbling through the code. This walkthrough will address the parts of the code 
+that are standard and expected - the patterns that are unique to this code sample will be
+covered in more depth afterward.
+
+### Producer
 
 The producer in this solution is a microservice that is in charge of storing and
 updating the current state for different products (which are referred to by
 unique identifiers called "sku"s). This producer is implementing the
 distributable edge and edge fake pattern, and is the main focus of the repo.
 
-### Types
+#### Types
 
 A good place to start is in `Producer.Domain.Types`. This file defines any types
 that both the producer and the consumer of the service will care about.
@@ -21,14 +37,15 @@ Obviously, this means the types that the producer expects for requests, and the
 return types. Also, this contains the signatures for all the functions the
 producer will implement.
 
-### Logic
+#### Logic
 
 The actual producer starts implementing things in `Producer.Logic`. This is a
-place for any complicated business logic, computations, or decision making In
+place for any complicated business logic, computations, or decision making. In
 this scenario, the logic functions take in all the information they need, and
 emit a result which contains any results, or what stateful changes need to be
 made.
-### Controllers
+
+#### Controllers
 
 In `Producer.Server`, the file `Controller.fs` contains the controllers for all
 endpoints that actually have control over all that endpoints operations. For
@@ -36,23 +53,23 @@ example, for `HandleUpdateQuantity` it calls the buisiness logic to figure out
 which action to take, and if it is determined an item needs to be updated, it
 handles that.
 
-### Producer production style wire up
+#### Producer Production Style Wire Up
 
 In `Program.fs`, the actual microservice is initialized, simply listening on
 rest endpoints calling the controllers, or listening on a kafka topic for
 messages and passing them along. Since everything is depenency injected in
 controllers & buisiness logic, this is also where the database / upstream
-services would have to be injected
+services would have to be injected.
 
-## Databases / Upstream Services
+### Databases / Upstream Services
 
-For every Database / Upstream service, the api to interact with it is definied
+For every Database / Upstream service, the API to interact with it is definied
 in the domain types. There are two simple passthrough classes defined, each
 implementing this interface for a database. Also, the mocked database is
 purposefully seeded with different data to simulate a dev and QA/prod
 environment with different data.
 
-## Producer Edge
+### Producer Edge
 
 The `ProducerEdge` simply implements the client facing interface defined in our
 domain.types, and passes whatever it was given over the correct protocols for
@@ -62,7 +79,7 @@ for example HTTP turns into just an async response, so the client never has to
 deal with whatever internal protocol is used for the client -> producer
 communication.
 
-## Client
+### Client
 
 The client is a simple consumer of the producer microservice, which decides when
 quantities or prices of items might need to change. Nothing is too novel on the
@@ -71,7 +88,33 @@ normally run in production. For unit testing, it simply uses the faked edge to
 allow for more stable tests and an easy way to bypass the complications testing
 against a live kafka install.
 
-## Producer Fake Edge
+### Standard Unit Tests
+
+__DICSUSS UNIT TESTS THAT WE'D EXPECT TO SEE IN NORMAL CODEBASES__
+
+
+## Edge Testing Components and Practices
+
+Here's the important stuff. The
+**[blog post](https://randalldavis.github.io/microservice/testing/edge/2017/06/14/edge-testing-solution.html)**
+referenced above goes into Jet.com's approach to solving the problem with microservice 
+testing. This repo is meant to be a practical example of that solution.
+
+The blog post states: __*The provider microservice edge should ship along with an intelligent fake that expresses the provider’s behaviors. The consumer microservice should use that fake to exercise its non-vanilla interactions with the provider.*__
+
+### Provider Fake
+
+### Provider Edge Testing
+
+### Consumer Testing
+
+### Testing Commands
+
+
+
+__*EVERYTHING BELOW SHOULD BE REWORKED INTO THE SECTIONS ABOVE*__
+
+### Producer Fake Edge
 
 Now, since we are giving the client a way to talk to the real producer with a
 well defined business interface we can easily ship another edge to the consumer
@@ -82,7 +125,7 @@ behaviors and subtle nuances. In this case we were able to even include some of
 the core business logic from the real producer, but this won't always be
 possible.
 
-Also, By reimplementing the controller, we can tweak its behavior to simulate
+Also, by reimplementing the controller, we can tweak its behavior to simulate
 different states or levels of degraded performance that the producer might
 encounter in production. For example, here we implemented methods to simulate
 the producer's database being down or unreachable. This allows clients to test
@@ -96,7 +139,7 @@ implementation's functionality. Both of these also allow for fully testing the
 api without full integration tests or trying to simulate kafka brokers or
 complicated docker setups.
 
-## Testing
+### Testing
 
 In the producer testing folder, we have two types of tests. Unit tests, which
 simply call the core bits of logic in isolation as we mentioned when looking
@@ -118,4 +161,3 @@ side once they recieve the fake, the consumer never has any dependencies on some
 kafka broker or extenal service being up, but due to the defined interface is
 aware of all the functionality and can make sure its tests align with how the
 producer actually does run.
-
