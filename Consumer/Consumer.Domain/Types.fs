@@ -1,6 +1,6 @@
 ﻿namespace Consumer.Domain.Types
 
-open Producer.Domain.Types
+open Provider.Domain.Types
 
 type IConsumerApi =
     /// Increments the stock due to being overstocked

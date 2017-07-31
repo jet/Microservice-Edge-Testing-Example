@@ -13,7 +13,7 @@
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>EdgeTests</Name>
+    <Name>ProviderEdgeTests</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -66,6 +66,36 @@
     <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DirectEdge\ProviderDirectEdge.fsproj">
+      <Name>ProviderDirectEdge</Name>
+      <Project>{c3ff950e-2095-403a-a249-434fd7d39fe6}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Producer.Logic\Provider.Logic.fsproj">
+      <Name>Provider.Logic</Name>
+      <Project>{d147f6f5-ff74-48e8-b7e3-55649ea34e66}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Producer.Server\Provider.Server.fsproj">
+      <Name>Provider.Server</Name>
+      <Project>{c8db95fb-650f-4684-9eb1-155c46bec560}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ProducerClient\ProviderEdge.fsproj">
+      <Name>ProviderEdge</Name>
+      <Project>{3d84195d-a358-425b-9990-dda6da46f389}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ProducerFake\ProviderEdgeFake.fsproj">
+      <Name>ProviderEdgeFake</Name>
+      <Project>{57c4a7bb-ced4-464d-9d25-8fde1b887441}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Types\Provider.Domain.fsproj">
+      <Name>Provider.Domain</Name>
+      <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
@@ -76,36 +106,6 @@
     <ProjectReference Include="..\DatabaseMock\DatabaseMock.fsproj">
       <Name>DatabaseMock</Name>
       <Project>{9d485e51-38c8-40b9-bfff-79bcc2a4a041}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\DirectEdge\DirectEdge.fsproj">
-      <Name>DirectEdge</Name>
-      <Project>{c3ff950e-2095-403a-a249-434fd7d39fe6}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Producer.Logic\Producer.Logic.fsproj">
-      <Name>Producer.Logic</Name>
-      <Project>{d147f6f5-ff74-48e8-b7e3-55649ea34e66}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Producer.Server\Producer.Server.fsproj">
-      <Name>Producer.Server</Name>
-      <Project>{c8db95fb-650f-4684-9eb1-155c46bec560}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\ProducerClient\ProducerEdge.fsproj">
-      <Name>ProducerEdge</Name>
-      <Project>{3d84195d-a358-425b-9990-dda6da46f389}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\ProducerFake\ProducerEdgeFake.fsproj">
-      <Name>ProducerEdgeFake</Name>
-      <Project>{57c4a7bb-ced4-464d-9d25-8fde1b887441}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Types\Producer.Domain.fsproj">
-      <Name>Producer.Domain</Name>
-      <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

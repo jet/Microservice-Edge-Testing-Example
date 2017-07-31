@@ -1,6 +1,6 @@
-﻿module Producer.Logic.Quantity
+﻿module Provider.Logic.Quantity
 
-open Producer.Domain.Types
+open Provider.Domain.Types
 
 // Some Complex Business Logic
 // This is In its own library so the producer and the producer's fake can both use the same code for the important logic

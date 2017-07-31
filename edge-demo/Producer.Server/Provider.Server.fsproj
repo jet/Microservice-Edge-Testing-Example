@@ -1,19 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\xunit.runner.visualstudio.2.2.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.2.0\build\net20\xunit.runner.visualstudio.props')" Label="Paket" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>8f249845-f922-4695-b4fd-8ba0cc71cb83</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>ProducerTests</RootNamespace>
-    <AssemblyName>ProducerTests</AssemblyName>
+    <ProjectGuid>c8db95fb-650f-4684-9eb1-155c46bec560</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Producer.Server</RootNamespace>
+    <AssemblyName>Producer.Server</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>ProducerTests</Name>
+    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
+    <Name>Provider.Server</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,7 +23,9 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\ProducerTests.XML</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>bin\Debug\Producer.Server.XML</DocumentationFile>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,8 +34,40 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\ProducerTests.XML</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>bin\Release\Producer.Server.XML</DocumentationFile>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Controllers.fs" />
+    <Compile Include="Program.fs" />
+    <None Include="app.config" />
+    <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JsonStorage\DatabaseAdapter.fsproj">
+      <Name>DatabaseAdapter</Name>
+      <Project>{adef1ec8-bf31-4520-9266-e3e85ef932e1}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Producer.Logic\Provider.Logic.fsproj">
+      <Name>Provider.Logic</Name>
+      <Project>{d147f6f5-ff74-48e8-b7e3-55649ea34e66}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Types\Provider.Domain.fsproj">
+      <Name>Provider.Domain</Name>
+      <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
@@ -59,57 +92,11 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Test.fs" />
-    <Content Include="app.config" />
-    <None Include="paket.references" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="xunit.runner.tdnet">
-      <HintPath>..\packages\xunit.extensibility.core\lib\netstandard1.1\xunit.runner.tdnet.dll</HintPath>
-    </Reference>
-    <Reference Include="xunit.runner.utility.net452">
-      <HintPath>..\packages\xunit.extensibility.core\lib\netstandard1.1\xunit.runner.utility.net452.dll</HintPath>
-    </Reference>
-    <ProjectReference Include="..\DatabaseMock\DatabaseMock.fsproj">
-      <Name>DatabaseMock</Name>
-      <Project>{9d485e51-38c8-40b9-bfff-79bcc2a4a041}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Producer.Logic\Producer.Logic.fsproj">
-      <Name>Producer.Logic</Name>
-      <Project>{d147f6f5-ff74-48e8-b7e3-55649ea34e66}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Producer.Server\Producer.Server.fsproj">
-      <Name>Producer.Server</Name>
-      <Project>{c8db95fb-650f-4684-9eb1-155c46bec560}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\ProducerFake\ProducerEdgeFake.fsproj">
-      <Name>ProducerEdgeFake</Name>
-      <Project>{57c4a7bb-ced4-464d-9d25-8fde1b887441}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Types\Producer.Domain.fsproj">
-      <Name>Producer.Domain</Name>
-      <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6'">
       <ItemGroup>
-        <Reference Include="xunit.abstractions">
-          <HintPath>..\packages\xunit.abstractions\lib\net35\xunit.abstractions.dll</HintPath>
+        <Reference Include="FSharp.Control.AsyncSeq">
+          <HintPath>..\packages\FSharp.Control.AsyncSeq\lib\net45\FSharp.Control.AsyncSeq.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -119,8 +106,8 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6'">
       <ItemGroup>
-        <Reference Include="xunit.assert">
-          <HintPath>..\packages\xunit.assert\lib\netstandard1.1\xunit.assert.dll</HintPath>
+        <Reference Include="FSharp.Core">
+          <HintPath>..\packages\FSharp.Core\lib\net45\FSharp.Core.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -130,8 +117,8 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6'">
       <ItemGroup>
-        <Reference Include="xunit.core">
-          <HintPath>..\packages\xunit.extensibility.core\lib\netstandard1.1\xunit.core.dll</HintPath>
+        <Reference Include="Kafunk">
+          <HintPath>..\packages\Kafunk\lib\net45\Kafunk.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -141,8 +128,19 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6'">
       <ItemGroup>
-        <Reference Include="xunit.execution.desktop">
-          <HintPath>..\packages\xunit.extensibility.execution\lib\net452\xunit.execution.desktop.dll</HintPath>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6'">
+      <ItemGroup>
+        <Reference Include="Suave">
+          <HintPath>..\packages\Suave\lib\net40\Suave.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

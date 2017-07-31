@@ -3,14 +3,14 @@
 open Xunit
 open Consumer.Service
 open Consumer.Domain.Types
-open ProducerFake.Client
-open Producer.Domain.Types
+open ProviderFake.Client
+open Provider.Domain.Types
 
 type ``Core Service Functionality`` () =
 
     [<Fact>]
     let ``Overstocking persists`` () =
-        let client = (new ConsumerService (new ProducerClientEdgeFake ())) :> IConsumerApi
+        let client = (new ConsumerService (new ProviderClientEdgeFake ())) :> IConsumerApi
         let overstockResult =
             async {
                 return! client.Overstocked "a" 2
@@ -23,10 +23,10 @@ type ``Core Service Functionality`` () =
     let ``Don't expect to run a sale if overstock fails`` () =
         
         // Simulate a downed database for the producer
-        let producer = new ProducerClientEdgeFake ()
-        true |> producer.DatabaseStatus
+        let provider = new ProviderClientEdgeFake ()
+        true |> provider.DatabaseStatus
 
-        let client = (new ConsumerService (producer)) :> IConsumerApi
+        let client = (new ConsumerService (provider)) :> IConsumerApi
 
         let overstockResult =
             async {
@@ -38,7 +38,7 @@ type ``Core Service Functionality`` () =
 
     [<Fact>]
     let ``NudgePriceDown doesn't nudge by too much when price is already low`` () =
-        let producer = (new ProducerClientEdgeFake ()) :> IProducerApi
+        let producer = (new ProviderClientEdgeFake ()) :> IProviderApi
         let client = (new ConsumerService (producer)) :> IConsumerApi
 
         let mutable currentPrice = 1.0m

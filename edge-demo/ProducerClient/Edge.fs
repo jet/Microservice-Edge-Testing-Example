@@ -1,4 +1,4 @@
-﻿module ProducerClient.Client
+﻿module ProviderClient.Client
 
 open System
 open System.Net
@@ -6,11 +6,11 @@ open System.Net.Http
 open FSharp.Data
 open Newtonsoft.Json
 open Helpers
-open Producer.Domain.Constants
-open Producer.Domain.Types
+open Provider.Domain.Constants
+open Provider.Domain.Types
 open Kafunk
 
-type ProducerClientEdge (path:Uri) =
+type ProviderClientEdge (path:Uri) =
     let conn = Kafka.connHost kafkaHost
     
     let producerCfg =
@@ -19,25 +19,25 @@ type ProducerClientEdge (path:Uri) =
             partition = Partitioner.roundRobin, 
             requiredAcks = RequiredAcks.Local)
 
-    let producer =
+    let kafkaProvider =
         Producer.createAsync conn producerCfg
         // probably wouldn't have this sync in a real prod environment
         |> Async.RunSynchronously
 
 
-    interface IProducerApi with
+    interface IProviderApi with
         member x.GetItem (request: GetItemRequest) : Async<GetItemResponse> = async {
             return
                 request
                 //TODO: confirm that this absoluteUri works
-                |> Helpers.httpPost (sprintf "%s%s" path.OriginalString Producer.Domain.Constants.itemRoute)
+                |> Helpers.httpPost (sprintf "%s%s" path.OriginalString Provider.Domain.Constants.itemRoute)
                 |> (fun (resText: string) -> JsonConvert.DeserializeObject<GetItemResponse> resText)
         }
 
         member x.UpdateQuantity (request: UpdateQuantityRequest) = async {
             return
                 request
-                |> Helpers.httpPost (sprintf "%s%s" path.OriginalString Producer.Domain.Constants.updateQuantityRoute)
+                |> Helpers.httpPost (sprintf "%s%s" path.OriginalString Provider.Domain.Constants.updateQuantityRoute)
                 |> (fun (resText: string) -> JsonConvert.DeserializeObject<UpdateQuantityResponse> resText)
         }
 
@@ -46,7 +46,7 @@ type ProducerClientEdge (path:Uri) =
                 request
                 |> JsonConvert.SerializeObject
                 |> ProducerMessage.ofString
-                |> Producer.produce producer
+                |> Producer.produce kafkaProvider
                 |> Async.RunSynchronously
 
             printfn "partition=%i offset=%i" prodRes.partition prodRes.offset

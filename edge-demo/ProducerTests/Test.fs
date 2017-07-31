@@ -1,10 +1,10 @@
-﻿namespace ProducerTests.Tests
+﻿namespace ProviderTests.Tests
 
 open System
 open Xunit
-open Producer.Domain.Types
-open Producer.Logic.Quantity
-open ProducerFake.Client
+open Provider.Domain.Types
+open Provider.Logic.Quantity
+open ProviderFake.Client
 open DatabaseMock.SkuStorage
 
 type ``Quantity Updates Correctly`` () =

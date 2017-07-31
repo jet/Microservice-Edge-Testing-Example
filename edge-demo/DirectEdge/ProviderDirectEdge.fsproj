@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>8d31dd2a-4bb5-4023-99a5-4cdaf172de50</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Consumer</RootNamespace>
-    <AssemblyName>Consumer</AssemblyName>
+    <ProjectGuid>c3ff950e-2095-403a-a249-434fd7d39fe6</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DirectEdge</RootNamespace>
+    <AssemblyName>DirectEdge</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
-    <Name>Consumer</Name>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Name>ProviderDirectEdge</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -23,9 +23,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Debug\Consumer.XML</DocumentationFile>
-    <Prefer32Bit>true</Prefer32Bit>
+    <DocumentationFile>bin\Debug\DirectEdge.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,41 +32,30 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Release\Consumer.XML</DocumentationFile>
-    <Prefer32Bit>true</Prefer32Bit>
+    <DocumentationFile>bin\Release\DirectEdge.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DatabaseMock">
-      <HintPath>..\..\edge-demo\DatabaseMock\bin\Debug\DatabaseMock.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="ProducerClient">
-      <HintPath>..\..\edge-demo\ProducerClient\bin\Debug\ProducerClient.dll</HintPath>
-    </Reference>
-    <Reference Include="ProducerFake">
-      <HintPath>..\..\edge-demo\ProducerFake\bin\Debug\ProducerFake.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <Reference Include="Types">
-      <HintPath>..\..\edge-demo\ProducerClient\bin\Debug\Types.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Service.fs" />
-    <Compile Include="Program.fs" />
-    <None Include="App.config" />
+    <Compile Include="DirectEdge.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Consumer.Domain\Consumer.Domain.fsproj">
-      <Name>Consumer.Domain</Name>
-      <Project>{3b7f07b9-c04c-4d80-92a3-8a0ea8c4cb80}</Project>
+    <ProjectReference Include="..\Producer.Server\Provider.Server.fsproj">
+      <Name>Provider.Server</Name>
+      <Project>{c8db95fb-650f-4684-9eb1-155c46bec560}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Types\Provider.Domain.fsproj">
+      <Name>Provider.Domain</Name>
+      <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
@@ -88,8 +75,7 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
-  <Import Project="..\.paket\paket.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

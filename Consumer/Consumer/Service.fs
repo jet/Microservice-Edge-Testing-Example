@@ -1,9 +1,9 @@
 ﻿module Consumer.Service
 
 open Consumer.Domain.Types
-open Producer.Domain.Types
+open Provider.Domain.Types
 
-type ConsumerService (producerClient: IProducerApi) =
+type ConsumerService (providerClient: IProviderApi) =
 
     let mutable salesToRun = 0
 
@@ -14,13 +14,13 @@ type ConsumerService (producerClient: IProducerApi) =
                     UpdateQuantityRequest.sku = sku
                     action = Increment amount
                 }
-                |> producerClient.UpdateQuantity
+                |> providerClient.UpdateQuantity
             salesToRun <- salesToRun + (match res with | Updated _ -> 1 | _ -> 0)
             return res
         }
 
         member x.NudgePriceDown sku = async {
-            let! current = { GetItemRequest.sku = sku } |> producerClient.GetItem
+            let! current = { GetItemRequest.sku = sku } |> providerClient.GetItem
 
             match current with
             | Success item ->
@@ -33,7 +33,7 @@ type ConsumerService (producerClient: IProducerApi) =
                     SetPriceRequest.price = item.price - amountToDecrementBy;
                     sku = item.sku
                 }
-                |> producerClient.SetPrice
+                |> providerClient.SetPrice
 
                 salesToRun <- salesToRun - 1
             | _ -> ()
