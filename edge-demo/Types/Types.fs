@@ -1,4 +1,4 @@
-﻿module Producer.Domain.Types
+﻿module Provider.Domain.Types
 
 // General
 
@@ -50,7 +50,7 @@ type GetItemResponse =
 
 // Interfaces
 
-type IProducerApi =
+type IProviderApi =
     /// Increases, decreases, or sets the value of quantity for a sku
     abstract member UpdateQuantity: UpdateQuantityRequest -> Async<UpdateQuantityResponse>
 

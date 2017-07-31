@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>c3ff950e-2095-403a-a249-434fd7d39fe6</ProjectGuid>
+    <ProjectGuid>5255ad49-a1cb-4c05-b1df-a075cfb44f13</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>DirectEdge</RootNamespace>
-    <AssemblyName>DirectEdge</AssemblyName>
+    <RootNamespace>Types</RootNamespace>
+    <AssemblyName>Types</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>DirectEdge</Name>
+    <Name>Provider.Domain</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -23,7 +23,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\DirectEdge.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Types.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,7 +32,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\DirectEdge.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Types.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -45,19 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="DirectEdge.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Producer.Server\Producer.Server.fsproj">
-      <Name>Producer.Server</Name>
-      <Project>{c8db95fb-650f-4684-9eb1-155c46bec560}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Types\Producer.Domain.fsproj">
-      <Name>Producer.Domain</Name>
-      <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
-      <Private>True</Private>
-    </ProjectReference>
+    <Compile Include="Constants.fs" />
+    <Compile Include="Types.fs" />
+    <None Include="Script.fsx" />
+    <None Include="paket.references" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -75,6 +66,7 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
+  <Import Project="..\.paket\paket.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -2,15 +2,15 @@
 
 open System
 open Xunit
-open Producer.Domain.Types
-open Producer.Logic.Quantity
+open Provider.Domain.Types
+open Provider.Logic.Quantity
 open DatabaseMock.SkuStorage
 open Helpers
 
 type ``Quantity Updates And Persists Correctly`` () =
     [<Fact>]
     let ``Incrementing quantity persists`` () =
-        let test (edge: IProducerApi) =
+        let test (edge: IProviderApi) =
             let result =
                 { UpdateQuantityRequest.sku = "a"; action = UpdateQuantityAction.Increment 2 }
                 |> edge.UpdateQuantity
@@ -28,7 +28,7 @@ type ``Quantity Updates And Persists Correctly`` () =
 
     [<Fact>]
     let ``Decrementing quantity doesn't go past 0`` () =
-        let test (edge: IProducerApi) =
+        let test (edge: IProviderApi) =
             let result =
                 { UpdateQuantityRequest.sku = "a"; action = UpdateQuantityAction.Decrement 2 }
                 |> edge.UpdateQuantity
@@ -39,7 +39,7 @@ type ``Quantity Updates And Persists Correctly`` () =
 
     [<Fact>]
     let ``Updating Price Emits Event Response`` () =
-        let test (edge: IProducerApi) =
+        let test (edge: IProviderApi) =
             let priceEvent = edge.StateChange ()
             let mutable hasTriggeredListener = false
 

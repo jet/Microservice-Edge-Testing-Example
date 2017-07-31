@@ -2,7 +2,7 @@
 
 open System
 open System.IO
-open Producer.Domain.Types
+open Provider.Domain.Types
 
 // This file is a fake database mock, that implements
 // the interface of a real DB adapter but sits in memory

@@ -1,4 +1,4 @@
-﻿module Producer.Domain.Constants
+﻿module Provider.Domain.Constants
 
 let [<Literal>] itemRoute = "/api/item"
 let [<Literal>] updateQuantityRoute = "/api/update-quantity"

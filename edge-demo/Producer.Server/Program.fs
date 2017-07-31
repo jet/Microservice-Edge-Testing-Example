@@ -7,8 +7,8 @@ open Suave.Operators
 open Suave.Filters
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
-open Producer.Domain.Types
-open Producer.Domain.Constants
+open Provider.Domain.Types
+open Provider.Domain.Constants
 open JsonStorage.SkuStorage
 open Controllers
 open FSharp.Control
@@ -41,8 +41,8 @@ let startServer (db: ISkuDatabase) =
     let app =
         choose
             [ POST >=> choose
-                [ path Producer.Domain.Constants.itemRoute >=> request getItemResponse
-                  path Producer.Domain.Constants.updateQuantityRoute >=> request updateQuantityResponse ]
+                [ path Provider.Domain.Constants.itemRoute >=> request getItemResponse
+                  path Provider.Domain.Constants.updateQuantityRoute >=> request updateQuantityResponse ]
             ]
 
     startWebServer defaultConfig app
@@ -68,14 +68,14 @@ let createAsyncConsumer (db: ISkuDatabase) =
             partition = Partitioner.roundRobin,
             requiredAcks = RequiredAcks.Local)
 
-    let producer =
+    let kafkaProducer =
         Producer.createAsync conn producerCfg
         |> Async.RunSynchronously
 
     let broadcastStateChange =
         JsonConvert.SerializeObject
         >> ProducerMessage.ofString
-        >> Producer.produce producer
+        >> Producer.produce kafkaProducer
         >> Async.Ignore
         >> Async.RunSynchronously
 

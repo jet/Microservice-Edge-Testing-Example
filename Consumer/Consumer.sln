@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Consumer", "Consumer\Consumer.fsproj", "{8D31DD2A-4BB5-4023-99A5-4CDAF172DE50}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ConsumerServer", "Consumer\ConsumerServer.fsproj", "{8D31DD2A-4BB5-4023-99A5-4CDAF172DE50}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Consumer.Tests", "Consumer.Tests\Consumer.Tests.fsproj", "{403291B4-15AD-45EF-B9DF-2078EF4F3B2E}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ConsumerEdgeTests", "Consumer.Tests\ConsumerEdgeTests.fsproj", "{403291B4-15AD-45EF-B9DF-2078EF4F3B2E}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Consumer.Domain", "Consumer.Domain\Consumer.Domain.fsproj", "{3B7F07B9-C04C-4D80-92A3-8A0EA8C4CB80}"
 EndProject

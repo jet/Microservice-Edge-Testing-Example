@@ -12,7 +12,7 @@
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>ProducerEdge</Name>
+    <Name>ProviderEdge</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -51,8 +51,8 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Types\Producer.Domain.fsproj">
-      <Name>Producer.Domain</Name>
+    <ProjectReference Include="..\Types\Provider.Domain.fsproj">
+      <Name>Provider.Domain</Name>
       <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
       <Private>True</Private>
     </ProjectReference>

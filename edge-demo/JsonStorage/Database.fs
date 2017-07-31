@@ -3,7 +3,7 @@
 open System
 open System.IO
 open Newtonsoft.Json
-open Producer.Domain.Types
+open Provider.Domain.Types
 
 // This file represents an adapter for whatever database you are using
 // this would be calling mongo, docdb, whatever, but is using

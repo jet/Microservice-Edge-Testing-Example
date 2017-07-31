@@ -1,13 +1,13 @@
-﻿module ProducerFake.Client
+﻿module ProviderFake.Client
 
 open FSharp.Data
 open Newtonsoft.Json
-open Producer.Domain.Constants
-open Producer.Domain.Types
-open Producer.Logic.Quantity
+open Provider.Domain.Constants
+open Provider.Domain.Types
+open Provider.Logic.Quantity
 open DatabaseMock.SkuStorage
 
-type ProducerClientEdgeFake () =
+type ProviderClientEdgeFake () =
 
     let database = (new FakeDatabase ()) :> ISkuDatabase
 
@@ -20,7 +20,7 @@ type ProducerClientEdgeFake () =
     member x.DatabaseStatus status =
         databaseDown <- status
 
-    interface IProducerApi with
+    interface IProviderApi with
         member x.GetItem (request: GetItemRequest) : Async<GetItemResponse> = async {
             return
                 if databaseDown

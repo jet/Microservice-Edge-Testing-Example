@@ -5,21 +5,21 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Distributables", "Distributables", "{3AA2F04C-5697-498B-B879-6BA134BDD742}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Producer.Domain", "Types\Producer.Domain.fsproj", "{5255AD49-A1CB-4C05-B1DF-A075CFB44F13}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Provider.Domain", "Types\Provider.Domain.fsproj", "{5255AD49-A1CB-4C05-B1DF-A075CFB44F13}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProducerEdge", "ProducerClient\ProducerEdge.fsproj", "{3D84195D-A358-425B-9990-DDA6DA46F389}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProviderEdge", "ProducerClient\ProviderEdge.fsproj", "{3D84195D-A358-425B-9990-DDA6DA46F389}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProducerEdgeFake", "ProducerFake\ProducerEdgeFake.fsproj", "{57C4A7BB-CED4-464D-9D25-8FDE1B887441}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProviderEdgeFake", "ProducerFake\ProviderEdgeFake.fsproj", "{57C4A7BB-CED4-464D-9D25-8FDE1B887441}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Internals", "Internals", "{059CF167-71C6-41C6-A2CA-9E176CC70EE9}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProducerTests", "ProducerTests\ProducerTests.fsproj", "{8F249845-F922-4695-B4FD-8BA0CC71CB83}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProviderTests", "ProducerTests\ProviderTests.fsproj", "{8F249845-F922-4695-B4FD-8BA0CC71CB83}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Producer.Server", "Producer.Server\Producer.Server.fsproj", "{C8DB95FB-650F-4684-9EB1-155C46BEC560}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Provider.Server", "Producer.Server\Provider.Server.fsproj", "{C8DB95FB-650F-4684-9EB1-155C46BEC560}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{608B6642-EA0A-4CAF-AB07-25345ABDB032}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Producer.Logic", "Producer.Logic\Producer.Logic.fsproj", "{D147F6F5-FF74-48E8-B7E3-55649EA34E66}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Provider.Logic", "Producer.Logic\Provider.Logic.fsproj", "{D147F6F5-FF74-48E8-B7E3-55649EA34E66}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DatabaseAdapter", "JsonStorage\DatabaseAdapter.fsproj", "{ADEF1EC8-BF31-4520-9266-E3E85EF932E1}"
 EndProject
@@ -37,9 +37,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Edge-Testing", "Edge-Testin
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fake", "Fake", "{22E5D950-D5F1-4F61-904C-30893BB9A847}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "EdgeTests", "EdgeTests\EdgeTests.fsproj", "{5608DE98-55F1-46B7-AC3E-9535DA36E99E}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProviderEdgeTests", "EdgeTests\ProviderEdgeTests.fsproj", "{5608DE98-55F1-46B7-AC3E-9535DA36E99E}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DirectEdge", "DirectEdge\DirectEdge.fsproj", "{C3FF950E-2095-403A-A249-434FD7D39FE6}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProviderDirectEdge", "DirectEdge\ProviderDirectEdge.fsproj", "{C3FF950E-2095-403A-A249-434FD7D39FE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

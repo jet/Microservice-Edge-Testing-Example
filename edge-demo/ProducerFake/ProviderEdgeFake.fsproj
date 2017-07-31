@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>d147f6f5-ff74-48e8-b7e3-55649ea34e66</ProjectGuid>
+    <ProjectGuid>57c4a7bb-ced4-464d-9d25-8fde1b887441</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Producer.Logic</RootNamespace>
-    <AssemblyName>Producer.Logic</AssemblyName>
+    <RootNamespace>ProducerFake</RootNamespace>
+    <AssemblyName>ProducerFake</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>Producer.Logic</Name>
+    <Name>ProviderEdgeFake</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -23,7 +23,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\Producer.Logic.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\ProducerFake.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,12 +32,15 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\Producer.Logic.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\ProducerFake.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,13 +48,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="QuantityLogic.fs" />
+    <Compile Include="ClientEdgeFake.fs" />
     <None Include="Script.fsx" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Types\Producer.Domain.fsproj">
-      <Name>Producer.Domain</Name>
+    <ProjectReference Include="..\DatabaseMock\DatabaseMock.fsproj">
+      <Name>DatabaseMock</Name>
+      <Project>{9d485e51-38c8-40b9-bfff-79bcc2a4a041}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Producer.Logic\Provider.Logic.fsproj">
+      <Name>Provider.Logic</Name>
+      <Project>{d147f6f5-ff74-48e8-b7e3-55649ea34e66}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Types\Provider.Domain.fsproj">
+      <Name>Provider.Domain</Name>
       <Project>{5255ad49-a1cb-4c05-b1df-a075cfb44f13}</Project>
       <Private>True</Private>
     </ProjectReference>
@@ -73,7 +86,7 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <Import Project="..\.paket\paket.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
