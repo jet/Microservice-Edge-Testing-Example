@@ -24,7 +24,7 @@ type ``Core Service Functionality`` () =
         
         // Simulate a downed database for the producer
         let provider = new ProviderClientEdgeFake ()
-        true |> provider.DatabaseStatus
+        true |> provider.DatabaseIsDown
 
         let client = (new ConsumerService (provider)) :> IConsumerApi
 

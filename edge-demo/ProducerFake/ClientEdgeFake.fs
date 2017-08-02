@@ -17,7 +17,7 @@ type ProviderClientEdgeFake () =
 
     // The fake edge exposes ways to simulate failure states or conditions of the producer
     // This could be poor network connectivity, degraded experience, or in this case a downed DB
-    member x.DatabaseStatus status =
+    member x.DatabaseIsDown status =
         databaseDown <- status
 
     interface IProviderApi with
