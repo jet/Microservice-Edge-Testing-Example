@@ -14,14 +14,51 @@ type ProviderClientEdgeFake () =
     let stateChangeEvent = new Event<ItemState> ()
 
     let mutable databaseDown = false
+    let mutable underDuress = false
+    let mutable badData = false
+
+    let handleDuress () =
+        if underDuress
+        then
+            System.Threading.Thread.Sleep(2000)
+        else
+            ()
+
+    let throwForBadData () =
+        if badData
+        then
+            // Force the same exception the client libraries would throw on bad data
+            // better practice would be to return a 'a option instead of throwing everywhere
+            "{BADDATA}"
+            |> JsonConvert.DeserializeObject
+            |> ignore
+        else
+            ()
+
+    /// Handle failure states that can be handled independently
+    let handleFailures () =
+        handleDuress ()
+        throwForBadData ()
+
 
     // The fake edge exposes ways to simulate failure states or conditions of the producer
-    // This could be poor network connectivity, degraded experience, or in this case a downed DB
+    // This could be poor network connectivity, degraded experience, a downed DB, or any other prod issue
+
+    /// Simulates the inability to access the database
     member x.DatabaseIsDown status =
         databaseDown <- status
 
+    /// Simulates a high load or latency issues for the client
+    member x.UnderDuress status =
+        underDuress <- status
+
+    /// Simulates either mismatched client / server versions or the server sending garbage data
+    member x.BadData status =
+        badData <- status
+
     interface IProviderApi with
         member x.GetItem (request: GetItemRequest) : Async<GetItemResponse> = async {
+            handleFailures ()
             return
                 if databaseDown
                 then
@@ -36,6 +73,7 @@ type ProviderClientEdgeFake () =
         }
 
         member x.UpdateQuantity (request: UpdateQuantityRequest) = async {
+            handleFailures ()
             if databaseDown
             then
                 return UpdateQuantityResponse.Failed
@@ -54,6 +92,7 @@ type ProviderClientEdgeFake () =
         }
 
         member x.SetPrice request =
+            handleFailures ()
             if databaseDown
             then
                 ()
