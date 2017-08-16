@@ -39,24 +39,18 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DatabaseMock">
-      <HintPath>..\..\edge-demo\DatabaseMock\bin\Debug\DatabaseMock.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
     </Reference>
     <Reference Include="ProducerClient">
-      <HintPath>..\..\edge-demo\ProducerClient\bin\Debug\ProducerClient.dll</HintPath>
-    </Reference>
-    <Reference Include="ProducerFake">
-      <HintPath>..\..\edge-demo\ProducerFake\bin\Debug\ProducerFake.dll</HintPath>
+      <HintPath>..\..\producer\ProducerClient\bin\Debug\ProducerClient.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="Types">
-      <HintPath>..\..\edge-demo\ProducerClient\bin\Debug\Types.dll</HintPath>
+      <HintPath>..\..\producer\Types\bin\Debug\Types.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

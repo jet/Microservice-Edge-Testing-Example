@@ -43,7 +43,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="Types">
-      <HintPath>..\..\edge-demo\ProducerClient\bin\Debug\Types.dll</HintPath>
+      <HintPath>..\..\producer\Types\bin\Debug\Types.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,6 @@ open System
 open Consumer.Service
 open Consumer.Domain.Types
 open ProviderClient.Client
-open ProviderFake.Client
 open Provider.Domain.Types
     
     
