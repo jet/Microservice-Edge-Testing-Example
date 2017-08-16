@@ -8,11 +8,12 @@ open ProviderFake.Client
 open Provider.Domain.Types
     
     
+// The actual function of the consumer isn't relevant to this demo,
+// only how it interacts with the producer, which is why there is not much real behavior
 [<EntryPoint>]
 let main argv =
     printfn "%A" argv
     let client = (new ProviderClientEdge(new Uri("http://localhost:8080"))) :> IProviderApi
-    //let client = (new ProducerClientEdgeFake ()) :> IProducerApi
 
     let service = (new ConsumerService (client)) :> IConsumerApi
 
