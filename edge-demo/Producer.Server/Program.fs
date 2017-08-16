@@ -41,8 +41,8 @@ let startServer (db: ISkuDatabase) =
     let app =
         choose
             [ POST >=> choose
-                [ path Provider.Domain.Constants.itemRoute >=> request getItemResponse
-                  path Provider.Domain.Constants.updateQuantityRoute >=> request updateQuantityResponse ]
+                [ path (sprintf "/%s" Provider.Domain.Constants.itemRoute) >=> request getItemResponse
+                  path (sprintf "/%s" Provider.Domain.Constants.updateQuantityRoute) >=> request updateQuantityResponse ]
             ]
 
     startWebServer defaultConfig app

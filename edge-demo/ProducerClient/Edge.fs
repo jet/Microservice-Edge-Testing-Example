@@ -29,15 +29,14 @@ type ProviderClientEdge (path:Uri) =
         member x.GetItem (request: GetItemRequest) : Async<GetItemResponse> = async {
             return
                 request
-                //TODO: confirm that this absoluteUri works
-                |> Helpers.httpPost (sprintf "%s%s" path.OriginalString Provider.Domain.Constants.itemRoute)
+                |> Helpers.httpPost (sprintf "%s%s" path.AbsoluteUri Provider.Domain.Constants.itemRoute)
                 |> (fun (resText: string) -> JsonConvert.DeserializeObject<GetItemResponse> resText)
         }
 
         member x.UpdateQuantity (request: UpdateQuantityRequest) = async {
             return
                 request
-                |> Helpers.httpPost (sprintf "%s%s" path.OriginalString Provider.Domain.Constants.updateQuantityRoute)
+                |> Helpers.httpPost (sprintf "%s%s" path.AbsoluteUri Provider.Domain.Constants.updateQuantityRoute)
                 |> (fun (resText: string) -> JsonConvert.DeserializeObject<UpdateQuantityResponse> resText)
         }
 
