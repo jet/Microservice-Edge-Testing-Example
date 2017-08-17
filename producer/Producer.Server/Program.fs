@@ -58,7 +58,6 @@ let createAsyncConsumer (db: ISkuDatabase) =
     let consumer =
         Consumer.create conn consumerConfig
 
-    // TODO find a better way to start up and set offsets
     Consumer.commitOffsets consumer [| 0, 0L |]
     |> Async.RunSynchronously 
 
