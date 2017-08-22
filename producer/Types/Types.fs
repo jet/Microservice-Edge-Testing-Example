@@ -57,9 +57,6 @@ type IProviderApi =
     /// Get the current state of an item by sku
     abstract member GetItem: GetItemRequest -> Async<GetItemResponse>
 
-    // TODO find out AsyncSeq Type
-    // abstract member SubscribeToUpdateQuantity: AsyncSeq<UpdateQuantityResponse>
-
     /// Set the exact price of a sku
     abstract member SetPrice: SetPriceRequest -> unit
 
