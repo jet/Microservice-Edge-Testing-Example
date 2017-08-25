@@ -9,8 +9,6 @@ open Provider.Domain.Types
 // this would be calling mongo, docdb, whatever, but is using
 // the filesystem to decrease dependencies for this demo
 
-//TODO: since this database gets mutated upon use, you might want to ship your demo with a special database.json file that can be used as the initial database (and provide brief instructions about using it again to reset the database). I also considered having a database initializer function, but that's meta code that might get mistaken for real code.
-
 type Database = Map<string, ItemState>
 
 type JsonDatabase () =

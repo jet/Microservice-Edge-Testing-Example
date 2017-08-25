@@ -69,7 +69,6 @@ type ProviderClientEdge (path:Uri) =
                 |> Map.find 0 
                 |> snd
 
-            // TODO find a better way to start up and set offsets
             Consumer.commitOffsets consumer [| 0, 0L |]
             |> Async.RunSynchronously 
 
