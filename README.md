@@ -8,6 +8,10 @@ This is meant to address the issue that the blog post calls out: __*non-vanilla
 interactions between microservices are not being adequately tested in
 microservice architectures*__.
 
+For a talk that gives an overview of this concept, click the image below:
+
+[![A talk that gives an overview of this concept](images/talk-snapshot.png)](https://www.youtube.com/watch?v=iNDd57BwBJE)
+
 Note that this repo has code that is intentionally simplified to allow for more
 focus on the recommended patterns for edge testing and how they might play out
 in a real code base.
